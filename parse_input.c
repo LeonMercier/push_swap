@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:44:45 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/04 16:14:22 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/04 17:12:00 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	parse_input(int argc, char **argv, t_list **stack_a)
 	i = 1;
 	while (i < argc)
 	{
-		strv = ft_split(argv[i]);
+		strv = ft_split(argv[i], ' ');
 		if (!strv)
 			return (1);
 		while (*strv)
@@ -60,7 +60,7 @@ int	parse_input(int argc, char **argv, t_list **stack_a)
 			ft_lstadd_front(stack_a, newnode);
 			strv++;
 		}
-		free(strv);
+//		free(strv);
 		i++;
 	}
 	return (0);
