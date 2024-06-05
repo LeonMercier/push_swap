@@ -1,21 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.h                                        :+:      :+:    :+:   */
+/*   print_instructions.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/04 12:02:57 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/05 14:29:21 by lemercie         ###   ########.fr       */
+/*   Created: 2024/06/05 14:25:37 by lemercie          #+#    #+#             */
+/*   Updated: 2024/06/05 14:32:03 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PUSH_SWAP_H
-#define PUSH_SWAP_H
-# include "ft_printf/ft_printf.h"
+#include "push_swap.h"
 
-void	print_stack(t_list *stack);
-int	print_instructions(t_list *instructions);
-int	do_sort(t_list **stack_a, t_list **stack_b, t_list **instructions);
-int	parse_input(int argc, char **argv, t_list **stack_a);
-#endif
+int	print_instructions(t_list *instructions)
+{
+	if (instructions)
+	{
+		if (instructions->content)
+			ft_printf("%s\n",((char*) instructions->content));
+		if (instructions->next)
+			print_instructions(instructions->next);
+	}
+	return (0);
+}
+	
