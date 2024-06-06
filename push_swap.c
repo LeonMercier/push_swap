@@ -6,19 +6,11 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:39:57 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/05 14:30:30 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/06 12:16:26 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 //https://cs.stackexchange.com/questions/90202/sorting-a-stack-using-bubble-sort
 	  
-// read input into dtta structure
-//
-// create second data structure
-//
-// allocate string for output
-// for performance, we use strlcat to construct the output string
-// rellocate as necessary to grow the space
-//
 // bubble sort may be too slow
 // consider radix sort although that one needs hardcoded solutions for
 //  3-5 inputs
@@ -31,6 +23,14 @@
 //	==> numbers
 
 #include "push_swap.h"
+
+static void	cleanup(t_list **stack_a, t_list **stack_b, t_list **instructions)
+{
+	ft_lstclear(stack_a, free);
+	ft_lstclear(stack_b, free);
+	ft_lstclear(instructions, free);
+}
+
 // return 0 on success
 static int	do_thing(int argc, char **argv)
 {
@@ -39,13 +39,22 @@ static int	do_thing(int argc, char **argv)
 	t_list	*stack_b;
 
 	if (parse_input(argc, argv, &stack_a))
+	{
+		cleanup(&stack_a, &stack_b, &instructions);
 		return (1);
+	}
 	print_stack(stack_a);
 	if (do_sort(&stack_a, &stack_b, &instructions))
+	{
+		cleanup(&stack_a, &stack_b, &instructions);
 		return (1);
+	}
 	print_stack(stack_b);
 	if (print_instructions(instructions))
+	{
+		cleanup(&stack_a, &stack_b, &instructions);
 		return (1);
+	}
 	return (0);
 }
 

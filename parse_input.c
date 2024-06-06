@@ -6,12 +6,13 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:44:45 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/04 17:12:00 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/06 13:49:37 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
+// TODO fail when garbage before a digit
 int	validate_number(char *str)
 {
 	while (*str)
@@ -23,6 +24,9 @@ int	validate_number(char *str)
 	return (1);
 }
 
+// TODO in case of error; free whole stack
+// we dd to the back; therefore first argument ends up in the beginning
+// beginnin equals top
 int	parse_input(int argc, char **argv, t_list **stack_a)
 {
 	int		i;
@@ -57,7 +61,7 @@ int	parse_input(int argc, char **argv, t_list **stack_a)
 				free(num);
 				return (1);
 			}
-			ft_lstadd_front(stack_a, newnode);
+			ft_lstadd_back(stack_a, newnode);
 			strv++;
 		}
 //		free(strv);
