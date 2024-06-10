@@ -6,20 +6,19 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 14:09:16 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/10 14:04:41 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/10 17:57:12 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-// TODO why not just swap the pointers instead of copying ints?
 void	swap_top(t_list *stack)
 {
-	int	tmp;
+	void	*tmp;
 
-	tmp = *(int *) stack->content;
-	*(int *) stack->content = *(int *) stack->next->content;
-	*(int *) (stack->next->content) = tmp;
+	tmp = stack->content;
+	stack->content = stack->next->content;
+	stack->next->content = tmp;
 }
 
 t_list	*pop(t_list **stack)
@@ -59,16 +58,20 @@ int	add_instr(t_list **instructions, char *instr)
 	return (0);
 }
 
+// push len -1 elements to stack B, leaving largest in A
+// return the same elements to stack A
+// on the second round we push len -2 elements leaving behind the two largest
+// ones in order and so on and so on
+// TODO save lines by using exit() in add_instr() ?
+// TODO put bubblesort in its own file but leave stack manipulators
 int	bubblesort(t_list **stack_a, t_list **stack_b, t_list **instructions)
 {
 	int		len;
 	int		i;
-	int		j;
 	
 	len = ft_lstsize(*stack_a);
 	while (len > 0)
 	{
-		// push len -1 elements to stack B, leaving largest in A
 		i = len - 1;
 		while (i > 0)
 		{
@@ -83,15 +86,15 @@ int	bubblesort(t_list **stack_a, t_list **stack_b, t_list **instructions)
 				return (1);
 			i--;
 		}
-		// return the same elements to stack A
-		j = len - 1;
-		while (j > 0)
+		i = len - 1;
+		while (i > 0)
 		{
 			push_ab(stack_b, stack_a);
 			if (add_instr(instructions, "pa"))
 				return (1);
-			j--;
+			i--;
 		}
+		// at this point we could test if the array is already sorted
 		len--;
 	}
 	return (0);

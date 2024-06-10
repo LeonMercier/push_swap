@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:39:57 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/10 14:27:50 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/10 17:57:13 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 //https://cs.stackexchange.com/questions/90202/sorting-a-stack-using-bubble-sort

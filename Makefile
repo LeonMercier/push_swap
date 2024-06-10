@@ -6,13 +6,13 @@
 #    By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/24 10:50:44 by lemercie          #+#    #+#              #
-#    Updated: 2024/06/05 14:30:11 by lemercie         ###   ########.fr        #
+#    Updated: 2024/06/10 16:51:51 by lemercie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-#CFLAGS = -Wall -Wextra -Werror
-CFLAGS = -g -fsanitize=address -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
+#CFLAGS = -g -fsanitize=address -Wall -Wextra -Werror
 
 SRCS = push_swap.c parse_input.c do_sort.c print_instructions.c test_utils.c 
 
