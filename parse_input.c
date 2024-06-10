@@ -6,22 +6,23 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:44:45 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/10 14:04:40 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/10 14:25:30 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-// TODO fail when garbage before a digit
-int	validate_number(char *str)
+static int	is_valid_number(char *str)
 {
-	while (*str)
+	while (*str && ((*str >= 9 && *str <= 13) || *str == 32))
 	{
-		if (*str >= '0' && *str <= '9')
-			return (0);
 		str++;
 	}
-	return (1);
+	if (*str == '-' || *str == '+')
+		str++;
+	if (*str >= '0' && *str <= '9')
+		return (1);
+	return (0);
 }
 
 static void	free_strv(char **strv)
@@ -54,7 +55,7 @@ int	parse_input(int argc, char **argv, t_list **stack_a)
 		strv_head = strv;
 		while (*strv)
 		{
-			if (validate_number(*strv))
+			if (!is_valid_number(*strv))
 			{
 				free_strv(strv_head);
 				return (1);
