@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:44:45 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/07 13:14:53 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/10 10:38:10 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	parse_input(int argc, char **argv, t_list **stack_a)
 				free(num);
 				return (1);
 			}
-			ft_lstadd_front(stack_a, newnode);
+			ft_lstadd_back(stack_a, newnode);
 			strv++;
 		}
 //		free(strv);
