@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:44:45 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/10 10:38:10 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/10 14:04:40 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,24 @@ int	validate_number(char *str)
 	return (1);
 }
 
-// TODO in case of error; free whole stack
+static void	free_strv(char **strv)
+{
+	char **strv_head;
+
+	strv_head = strv;
+	while (*strv)
+	{
+		free(*strv);
+		strv++;
+	}
+	free(strv_head);
+}
+
 int	parse_input(int argc, char **argv, t_list **stack_a)
 {
 	int		i;
 	char	**strv;
+	char	**strv_head;
 	int		*num;
 	t_list	*newnode;
 
@@ -38,32 +51,33 @@ int	parse_input(int argc, char **argv, t_list **stack_a)
 		strv = ft_split(argv[i], ' ');
 		if (!strv)
 			return (1);
+		strv_head = strv;
 		while (*strv)
 		{
 			if (validate_number(*strv))
 			{
-				free(strv);
+				free_strv(strv_head);
 				return (1);
 			}
 			num = (int *) malloc(sizeof(int));
 			if (!num)
 			{
-				free(strv);
+				free_strv(strv_head);
 				return (1);
 			}
 			*num = ft_atoi(*strv);
 			newnode = ft_lstnew(num);
 			if (!newnode)
 			{
-				free(strv);
+				free_strv(strv_head);
 				free(num);
 				return (1);
 			}
 			ft_lstadd_back(stack_a, newnode);
 			strv++;
 		}
-//		free(strv);
 		i++;
 	}
+	free_strv(strv_head);
 	return (0);
 }
