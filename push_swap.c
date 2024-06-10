@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:39:57 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/10 12:40:35 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/10 13:47:49 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 //https://cs.stackexchange.com/questions/90202/sorting-a-stack-using-bubble-sort
@@ -38,6 +38,7 @@ static int	do_thing(int argc, char **argv)
 	t_list	*stack_a;
 	t_list	*stack_b;
 
+	instructions = 0;
 	if (parse_input(argc, argv, &stack_a))
 	{
 		cleanup(&stack_a, &stack_b, &instructions);

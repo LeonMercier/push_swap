@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 14:09:16 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/10 12:40:36 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/10 13:47:50 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,21 @@ void	push_ab(t_list **stack_a, t_list **stack_b)
 	ft_lstadd_front(stack_b, old_head_a);
 }
 
+int	add_instr(t_list **instructions, char *instr)
+{
+	char	*str;
+	t_list	*node;
+
+	str = ft_strdup(instr);
+	if (!str)
+		return (1);
+	node = ft_lstnew(str);
+	if (!node)
+		return (1);
+	ft_lstadd_back(instructions, node);
+	return (0);
+}
+
 int	bubblesort(t_list **stack_a, t_list **stack_b, t_list **instructions)
 {
 	int		len;
@@ -60,12 +75,12 @@ int	bubblesort(t_list **stack_a, t_list **stack_b, t_list **instructions)
 			if (*(int *) (*stack_a)->content > *(int *) (*stack_a)->next->content)
 			{
 				swap_top(*stack_a);
-				// TODO strdup can fail
-				ft_lstadd_back(instructions, ft_lstnew(ft_strdup("sa"))); 
+				if (add_instr(instructions, "sa"))
+					return (1);
 			}
 			push_ab(stack_a, stack_b);
-				// TODO strdup can fail
-			ft_lstadd_back(instructions, ft_lstnew(ft_strdup("pb"))); 
+			if (add_instr(instructions, "pb"))
+				return (1);
 			i--;
 		}
 		// return the same elements to stack A
@@ -73,8 +88,8 @@ int	bubblesort(t_list **stack_a, t_list **stack_b, t_list **instructions)
 		while (j > 0)
 		{
 			push_ab(stack_b, stack_a);
-				// TODO strdup can fail
-			ft_lstadd_back(instructions, ft_lstnew(ft_strdup("pa"))); 
+			if (add_instr(instructions, "pa"))
+				return (1);
 			j--;
 		}
 		len--;
@@ -82,16 +97,20 @@ int	bubblesort(t_list **stack_a, t_list **stack_b, t_list **instructions)
 	return (0);
 }
 
+int	is_sorted(t_list *stack)
+{
+	while (stack->next)
+	{
+		if (*(int *) stack->content > *(int *) stack->next->content)
+			return (0);
+		stack = stack->next;
+	}
+	return (1);
+}
+
 int	do_sort(t_list **stack_a, t_list **stack_b, t_list **instructions)
 {
-	/*
-	char	*ins;
-
-	ins = (char *) malloc(sizeof(char) * 3);
-	ins = ft_strdup("HE");
-	*stack_b = *stack_a;
-	ft_lstadd_back(instructions, ft_lstnew(ins));
-	*/
-	
+	if (is_sorted(*stack_a))
+		return (0);
 	return (bubblesort(stack_a, stack_b, instructions));
 }
