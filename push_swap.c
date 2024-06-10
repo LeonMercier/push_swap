@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:39:57 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/10 13:47:49 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/10 14:27:50 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 //https://cs.stackexchange.com/questions/90202/sorting-a-stack-using-bubble-sort
@@ -18,10 +18,6 @@
 //  int array for the stack is a bad idea because rotate instructions will be 
 //	hard to implement
 //
-//	strsplit with space
-//	atoi
-//	==> numbers
-
 #include "push_swap.h"
 
 static void	cleanup(t_list **stack_a, t_list **stack_b, t_list **instructions)

@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:44:45 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/10 14:25:30 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/10 15:11:26 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	is_valid_number(char *str)
 
 static void	free_strv(char **strv)
 {
-	char **strv_head;
+	char	**strv_head;
 
 	strv_head = strv;
 	while (*strv)
@@ -38,13 +38,35 @@ static void	free_strv(char **strv)
 	free(strv_head);
 }
 
+int	parse_num(t_list **stack, char **strv)
+{
+	int		*num;
+	t_list	*node;
+	char	**strv_head;
+
+	strv_head = strv;
+	while (*strv)
+	{
+		num = (int *) malloc(sizeof(int));
+		if (!is_valid_number(*strv) || !num)
+			return (1);
+		*num = ft_atoi(*strv);
+		node = ft_lstnew(num);
+		if (!node)
+		{
+			free(num);
+			return (1);
+		}
+		ft_lstadd_back(stack, node);
+		strv++;
+	}
+	return (0);
+}
+
 int	parse_input(int argc, char **argv, t_list **stack_a)
 {
 	int		i;
 	char	**strv;
-	char	**strv_head;
-	int		*num;
-	t_list	*newnode;
 
 	i = 1;
 	while (i < argc)
@@ -52,33 +74,13 @@ int	parse_input(int argc, char **argv, t_list **stack_a)
 		strv = ft_split(argv[i], ' ');
 		if (!strv)
 			return (1);
-		strv_head = strv;
-		while (*strv)
+		if (parse_num(stack_a, strv))
 		{
-			if (!is_valid_number(*strv))
-			{
-				free_strv(strv_head);
-				return (1);
-			}
-			num = (int *) malloc(sizeof(int));
-			if (!num)
-			{
-				free_strv(strv_head);
-				return (1);
-			}
-			*num = ft_atoi(*strv);
-			newnode = ft_lstnew(num);
-			if (!newnode)
-			{
-				free_strv(strv_head);
-				free(num);
-				return (1);
-			}
-			ft_lstadd_back(stack_a, newnode);
-			strv++;
+			free_strv(strv);
+			return (1);
 		}
+		free_strv(strv);
 		i++;
 	}
-	free_strv(strv_head);
 	return (0);
 }
