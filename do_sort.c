@@ -6,44 +6,156 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 14:09:16 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/12 12:18:35 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/12 16:12:46 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	cost_to_insert(t_list *stack_b, int num)
-{}
+int	get_max(t_list *stack)
+{
+	int	max;
+
+	max = *(int *) stack->content;
+	while (stack->next)
+	{
+		stack = stack->next;
+		if (*(int *) stack->content > max)
+			max = *(int *) stack->content;
+	}
+	return (max);
+}
+
+int	get_min(t_list *stack)
+{
+	int	min;
+
+	min = *(int *) stack->content;
+	while (stack->next)
+	{
+		stack = stack->next;
+		if (*(int *) stack->content < min)
+			min = *(int *) stack->content;
+	}
+	return (min);
+}
+
+// return -1 if not found
+int	index_of_num(t_list *stack, int num)
+{
+	int	index;
+
+	index = 0;
+	while (stack)
+	{
+		if (num == *(int *) stack->content)
+			return (index);
+		index++;
+		stack = stack->next;
+	}
+	return (-1);
+}
+
+int	index_of_smaller(t_list *stack, int num)
+{
+	int	index;
+	int	index_smaller;
+	int biggest_smaller;
+	int curr;
+
+	index = 0;
+	index_smaller = -1;
+	while (stack)
+	{
+		curr = *(int *) stack->content;
+		if (curr < num && (index_smaller == -1 || curr > biggest_smaller))
+		{
+			biggest_smaller = curr;
+			index_smaller = index;
+		}
+		index++;
+		stack = stack->next;
+	}
+	return (index_smaller);
+}
+
+// returns the index of the number above which we want to insert
+int	index_to_insert(t_list *stack, int num)
+{
+	// if inserting bigger than max or smaller than min: rotate max to top
+	if (num > get_max(stack) || num < get_min(stack))
+	{
+		return (index_of_num(stack, get_max(stack)));
+	}
+	// if inserting in the middle: rotate the biggest number that is still
+	// smaller than num to the top
+	return (index_of_smaller(stack, num));	
+}
+
+int	max(int a, int b)
+{
+	if (a >= b)
+		return (a);
+	return (b);
+}
+
+int	min(int a, int b, int c, int d)
+{
+	if (a < b && a < c && a < d)
+		return (a);
+	if (b < a && b < c && b < d)
+		return (b);
+	if (c < a && c < b && c < d)
+		return (c);
+	return (d);
+}
+
+int	get_lowest_cost(int index, int num, t_list *stack_a, t_list *stack_b)
+{
+	int	cost_rot_rot;
+	int	cost_rot_rev;
+	int	cost_rev_rot;
+	int	cost_rev_rev;
+
+	cost_rot_rot = max(index, index_to_insert(stack_b, num));
+	cost_rot_rev = index + (ft_lstsize(stack_b) - index_to_insert(stack_b, num));
+	cost_rev_rot = (ft_lstsize(stack_a) - index) + index_to_insert(stack_b, num);
+	cost_rev_rev = max((ft_lstsize(stack_a) - index),
+		   	(ft_lstsize(stack_b) - index_to_insert(stack_b, num)));
+	return (min(cost_rot_rot, cost_rot_rev, cost_rev_rot, cost_rev_rev));
+// rot => index
+// rev => len - index
+//	min (
+	// max (rot,rot) 
+	// rot + rev
+	// rev + rot
+	// max (rev, rev)
+}
 
 // if the sign of the rotations is the same, then they can be combined and the
 // total cost is the highest cost of the two
 int	index_of_cheapest(t_list *stack_a, t_list *stack_b)
 {
-	int	cost_to_extract;
 	int	i_curr;
+	int	num_curr;
 	int	cheapest_index;
-	int	cheapest_cost;
-	int	len_a;
-	int	insert_cost;
+	int	lowest_cost;
+	int	current_cost;
 
 	i_curr = 0;
-	cheapest_index = 0;
-	len_a = ft_lstsize(stack_a);
 	while (stack_a)
 	{
-		if (len_a - index < index)
-			cost_to_extract = len_a - index;
-		else
-			cost_to_extract = index;
-		insert_cost = cost_to_insert(stack_b, *(int *) stack_a->content);
-		if (i_curr == 0 || insert_cost < cheapest_cost)
+		num_curr = *(int *) stack_a->content;
+		current_cost = get_lowest_cost(i_curr, num_curr, stack_a, stack_b);
+		if (i_curr == 0 || current_cost < lowest_cost)
 		{
 			cheapest_index = i_curr;
-			cheapest_cost = cost_to_extract + cost_to_insert;
+			lowest_cost = current_cost;
 		}
 		stack_a = stack_a->next;
 		i_curr++;
 	}
+	return (cheapest_index);
 
 	// cost to rotate A + cost to rotate B
 	// BUT rotations of A and B can be combined if they are to the same
@@ -52,7 +164,12 @@ int	index_of_cheapest(t_list *stack_a, t_list *stack_b)
 }
 
 void	sort_into_b(t_list **stack_a, t_list **stack_b, t_list **instructions)
-{}
+{
+	int	index_of_cheapest;
+
+	index_of_cheapest = index_of_cheapest(*stack_a, *stack_b);
+
+}
 
 void	sort_three(t_list **stack, t_list **instructions)
 {}
@@ -72,7 +189,8 @@ int	turksort(t_list **stack_a, t_list **stack_b, t_list **instructions)
 	pb(stack_a, stack_b, instructions);
 	pb(stack_a, stack_b, instructions);
 
-	// find cheapest number in A to push into correct place in B
+	// find cheapest number in A to push into correct place in B, we want B to
+	// end up in descending order. 
 	// 		start calculating costs for each number
 	// 		if we find one with cost of 1 (only the number on top of A!),
 	// 		 push it
