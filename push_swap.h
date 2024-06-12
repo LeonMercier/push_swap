@@ -6,13 +6,35 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:02:57 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/12 16:12:46 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/12 17:43:44 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 # include "ft_printf/ft_printf.h"
+
+enum e_movetype
+{
+	mt_rot_rot,
+	mt_rot_rev,
+	mt_rev_rot,
+	mt_rev_rev
+};
+
+typedef enum e_movetype t_movetype;
+
+typedef struct s_i_movetype
+{
+	int	index;
+	t_movetype mt;
+} t_ix_move;
+
+typedef struct s_cost_movetype
+{
+	int	cost;
+	t_movetype mt;
+} t_cost_move;
 
 void	swap_top(t_list *stack);
 t_list	*pop(t_list **stack);
