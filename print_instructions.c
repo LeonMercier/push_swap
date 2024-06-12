@@ -6,11 +6,26 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 14:25:37 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/05 14:32:03 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/12 10:13:20 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+int	add_instr(t_list **instructions, char *instr)
+{
+	char	*str;
+	t_list	*node;
+
+	str = ft_strdup(instr);
+	if (!str)
+		return (1);
+	node = ft_lstnew(str);
+	if (!node)
+		return (1);
+	ft_lstadd_back(instructions, node);
+	return (0);
+}
 
 int	print_instructions(t_list *instructions)
 {

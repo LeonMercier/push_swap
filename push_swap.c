@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:39:57 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/10 17:57:13 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/12 12:18:42 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 //https://cs.stackexchange.com/questions/90202/sorting-a-stack-using-bubble-sort
@@ -14,9 +14,6 @@
 // bubble sort may be too slow
 // consider radix sort although that one needs hardcoded solutions for
 //  3-5 inputs
-//
-//  int array for the stack is a bad idea because rotate instructions will be 
-//	hard to implement
 //
 #include "push_swap.h"
 
