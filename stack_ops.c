@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 09:48:04 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/13 12:24:21 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/13 16:29:06 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	rotate(t_list **stack)
 	t_list	*old_head;
 
 	old_head = pop(stack);
-	ft_lstadd_back(stack_a, old_head);
+	ft_lstadd_back(stack, old_head);
 }
 
 void	reverse_rotate(t_list **stack)

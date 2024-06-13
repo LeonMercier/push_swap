@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 14:09:16 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/13 12:25:52 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/13 17:03:31 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int	min(int a, int b, int c, int d)
 	return (d);
 }
 
-t_cost_move	get_lowest_cost(int index, int num, t_list *stack_a, t_list *stack_b)
+t_moveinfo	get_lowest_cost(int index, int num, t_list *stack_a, t_list *stack_b)
 {
 // rot => index
 // rev => len - index
@@ -123,7 +123,7 @@ t_cost_move	get_lowest_cost(int index, int num, t_list *stack_a, t_list *stack_b
 	int			rot_rev;
 	int			rev_rot;
 	int			rev_rev;
-	t_cost_move	ret;
+	t_moveinfo	ret;
 
 	rot_rot = max(index, index_to_insert(stack_b, num));
 	rot_rev = index + (ft_lstsize(stack_b) - index_to_insert(stack_b, num));
@@ -140,7 +140,7 @@ t_cost_move	get_lowest_cost(int index, int num, t_list *stack_a, t_list *stack_b
 	else if (rot_rev < rot_rot && rot_rev < rev_rot && rot_rev < rev_rev)
 	{
 		ret.cost = rot_rev;
-		rem.mt = mt_rot_rev;
+		ret.mt = mt_rot_rev;
 		ret.a_rotations = index;
 		ret.b_rotations = (ft_lstsize(stack_b) - index_to_insert(stack_b, num));
 	}
@@ -163,13 +163,13 @@ t_cost_move	get_lowest_cost(int index, int num, t_list *stack_a, t_list *stack_b
 
 // if the sign of the rotations is the same, then they can be combined and the
 // total cost is the highest cost of the two
-t_ix_move	index_of_cheapest(t_list *stack_a, t_list *stack_b)
+t_moveinfo	index_of_cheapest(t_list *stack_a, t_list *stack_b)
 {
 	int			i_curr;
 	int			num_curr;
 	int			lowest_cost;
-	t_cost_move	current_cost;
-	t_ix_move	cheapest;
+	t_moveinfo	current_cost;
+	t_moveinfo	cheapest;
 
 	i_curr = 0;
 	while (stack_a)
@@ -187,7 +187,7 @@ t_ix_move	index_of_cheapest(t_list *stack_a, t_list *stack_b)
 		stack_a = stack_a->next;
 		i_curr++;
 	}
-	return (cheapest_index);
+	return (cheapest);
 
 	// cost to rotate A + cost to rotate B
 	// BUT rotations of A and B can be combined if they are to the same
@@ -197,7 +197,7 @@ t_ix_move	index_of_cheapest(t_list *stack_a, t_list *stack_b)
 
 // TODO: add_instr() can fail
 void	rot_rot_into_b(t_list **stack_a, t_list **stack_b,
-		t_list **instructions, t_ix_move moveinfo)
+		t_list **instructions, t_moveinfo moveinfo)
 {
 	while (moveinfo.a_rotations > 0 && moveinfo.b_rotations > 0)
 	{
@@ -222,25 +222,197 @@ void	rot_rot_into_b(t_list **stack_a, t_list **stack_b,
 	pb(stack_a, stack_b, instructions);
 }
 
+void	rot_rev_into_b(t_list **stack_a, t_list **stack_b,
+		t_list **instructions, t_moveinfo moveinfo)
+{
+	while (moveinfo.a_rotations > 0)
+	{
+		rotate(stack_a);
+		add_instr(instructions, "ra");
+		moveinfo.a_rotations--;
+	}
+	while (moveinfo.b_rotations > 0)
+	{
+		reverse_rotate(stack_b);
+		add_instr(instructions, "rrb");
+		moveinfo.b_rotations--;
+	}
+	pb(stack_a, stack_b, instructions);
+}
+
+void	rev_rot_into_b(t_list **stack_a, t_list **stack_b,
+		t_list **instructions, t_moveinfo moveinfo)
+{
+	while (moveinfo.a_rotations > 0)
+	{
+		reverse_rotate(stack_a);
+		add_instr(instructions, "rra");
+		moveinfo.a_rotations--;
+	}
+	while (moveinfo.b_rotations > 0)
+	{
+		rotate(stack_b);
+		add_instr(instructions, "rb");
+		moveinfo.b_rotations--;
+	}
+	pb(stack_a, stack_b, instructions);
+}
+
+void	rev_rev_into_b(t_list **stack_a, t_list **stack_b,
+		t_list **instructions, t_moveinfo moveinfo)
+{
+	while (moveinfo.a_rotations > 0 && moveinfo.b_rotations > 0)
+	{
+		reverse_rotate(stack_a);
+		reverse_rotate(stack_b);
+		add_instr(instructions, "rrr");
+		moveinfo.a_rotations--;
+		moveinfo.b_rotations--;
+	}
+	while (moveinfo.a_rotations > 0)
+	{
+		reverse_rotate(stack_a);
+		add_instr(instructions, "rra");
+		moveinfo.a_rotations--;
+	}
+	while (moveinfo.b_rotations > 0)
+	{
+		reverse_rotate(stack_b);
+		add_instr(instructions, "rrb");
+		moveinfo.b_rotations--;
+	}
+	pb(stack_a, stack_b, instructions);
+}
+
 void	sort_into_b(t_list **stack_a, t_list **stack_b, t_list **instructions)
 {
-	t_ix_move	cheapest;
+	t_moveinfo	cheapest;
 
 	cheapest = index_of_cheapest(*stack_a, *stack_b);
 	if (cheapest.mt == mt_rot_rot)
 		rot_rot_into_b(stack_a, stack_b, instructions, cheapest);
-	
-
+	else if (cheapest.mt == mt_rot_rev)
+		rot_rev_into_b(stack_a, stack_b, instructions, cheapest);
+	else if (cheapest.mt == mt_rev_rot)
+		rev_rot_into_b(stack_a, stack_b, instructions, cheapest);
+	else if (cheapest.mt == mt_rev_rev)
+		rev_rev_into_b(stack_a, stack_b, instructions, cheapest);
 }
 
+// TODO handle identical numbers
 void	sort_three(t_list **stack, t_list **instructions)
-{}
+{
+	t_list	*head;
+	int		top;
+	int		middle;
+	int		bottom;
 
+	head = *stack;
+	top = *(int *) head->content;
+	middle = *(int *) head->next->content;
+	bottom = *(int *) head->next->next->content;
+	if (is_sorted(*stack))
+		return ;
+	if (top < middle && middle > bottom && top < bottom)
+	{
+		swap_top(*stack);
+		add_instr(instructions, "sa");
+		rotate(stack);
+		add_instr(instructions, "ra");
+	}
+	else if (top < middle && middle > bottom && top > bottom)
+	{
+		reverse_rotate(stack);
+		add_instr(instructions, "rra");
+	}
+	else if (top > middle && middle < bottom && top < bottom)
+	{
+		swap_top(*stack);
+		add_instr(instructions, "sa");
+	}
+	else if (top > middle && middle < bottom && top > bottom)
+	{
+		rotate(stack);
+		add_instr(instructions, "ra");
+	}
+	else if (top > middle && middle > bottom && top > bottom)
+	{
+		swap_top(*stack);
+		add_instr(instructions, "sa");
+		reverse_rotate(stack);
+		add_instr(instructions, "rra");
+	}
+}
+
+int	index_of_bigger_a(t_list *stack, int num)
+{
+	int	index;
+	int	index_smaller;
+	int smallest_bigger;
+	int curr;
+
+	index = 0;
+	index_smaller = -1;
+	while (stack)
+	{
+		curr = *(int *) stack->content;
+		if (curr > num && (index_smaller == -1 || curr < smallest_bigger))
+		{
+			smallest_bigger = curr;
+			index_smaller = index;
+		}
+		index++;
+		stack = stack->next;
+	}
+	return (index_smaller);
+}
+
+// returns the index of the number above which we want to insert
+int	index_to_insert_to_a(t_list *stack, int num)
+{
+	// if inserting bigger than max or smaller than min: rotate max to top
+	if (num > get_max(stack) || num < get_min(stack))
+	{
+		return (index_of_num(stack, get_max(stack)));
+	}
+	// if inserting in the middle: rotate the biggest number that is still
+	// smaller than num to the top
+	return (index_of_smaller(stack, num));
+}
+
+// TODO: consider case of reverse rotating stack A
 void	move_back_a(t_list **stack_a, t_list **stack_b, t_list **instructions)
-{}
+{
+	int	index_a;
+	t_list	*head_b;
 
+	head_b = *stack_b;
+	while (head_b)
+	{
+		index_a = index_to_insert_to_a(*stack_a, *(int *) head_b->content);
+		while (index_a > 0)
+		{
+			rotate(stack_a);
+			add_instr(instructions, "ra");
+		}
+		push_ab(stack_b, stack_a);
+		add_instr(instructions, "pa");
+		head_b = head_b->next;
+	}
+}
+
+// TODO: consider reverse rotating
 void	rot_smallest_top(t_list **stack, t_list **instructions)
-{}
+{
+	int	min;
+
+	min = get_min(*stack);
+	while (*(int *) (*stack)->content != min)
+	{
+		rotate(stack);
+		add_instr(instructions, "ra");
+	}
+}
 
 // This algo will need at least 5 numbers
 int	turksort(t_list **stack_a, t_list **stack_b, t_list **instructions)
@@ -265,7 +437,7 @@ int	turksort(t_list **stack_a, t_list **stack_b, t_list **instructions)
 	//
 	// 	If A is sorted at any point, we can stop moving stuff to B
 	len_a = ft_lstsize(*stack_a);
-	while (len > 3 && !is_sorted(*stack_a))
+	while (len_a > 3 && !is_sorted(*stack_a))
 	{
 		sort_into_b(stack_a, stack_b, instructions);
 		len_a--;
@@ -286,7 +458,7 @@ int	turksort(t_list **stack_a, t_list **stack_b, t_list **instructions)
 
 	// 		when B is empty rotate A until smallest number is on top
 	rot_smallest_top(stack_a, instructions);	
-
+	return (0);
 }
 
 // push len -1 elements to stack B, leaving largest in A
@@ -348,5 +520,16 @@ int	do_sort(t_list **stack_a, t_list **stack_b, t_list **instructions)
 {
 	if (is_sorted(*stack_a))
 		return (0);
-	return (bubblesort(stack_a, stack_b, instructions));
+	if (ft_lstsize(*stack_a) == 2)
+	{
+		swap_top(*stack_a);
+		add_instr(instructions, "sa");
+		return (0);
+	}		
+	if (ft_lstsize(*stack_a) == 3)
+	{
+		sort_three(stack_a, instructions);
+		return (0);
+	}
+	return (turksort(stack_a, stack_b, instructions));
 }
