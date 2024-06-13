@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:02:57 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/12 17:43:44 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/13 12:28:39 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,16 @@ typedef enum e_movetype t_movetype;
 typedef struct s_i_movetype
 {
 	int	index;
+	int	a_rotations;
+	int	b_rotations;
 	t_movetype mt;
 } t_ix_move;
 
 typedef struct s_cost_movetype
 {
 	int	cost;
+	int	a_rotations;
+	int	b_rotations;
 	t_movetype mt;
 } t_cost_move;
 

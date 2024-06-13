@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 14:09:16 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/12 17:43:43 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/13 12:25:52 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,13 @@ int	min(int a, int b, int c, int d)
 
 t_cost_move	get_lowest_cost(int index, int num, t_list *stack_a, t_list *stack_b)
 {
+// rot => index
+// rev => len - index
+//	min (
+	// max (rot,rot) 
+	// rot + rev
+	// rev + rot
+	// max (rev, rev)
 	int			rot_rot;
 	int			rot_rev;
 	int			rev_rot;
@@ -127,30 +134,31 @@ t_cost_move	get_lowest_cost(int index, int num, t_list *stack_a, t_list *stack_b
 	{
 		ret.cost = rot_rot;
 		ret.mt = mt_rot_rot;
+		ret.a_rotations = index;
+		ret.b_rotations = index_to_insert(stack_b, num);
 	}
 	else if (rot_rev < rot_rot && rot_rev < rev_rot && rot_rev < rev_rev)
 	{
 		ret.cost = rot_rev;
 		rem.mt = mt_rot_rev;
+		ret.a_rotations = index;
+		ret.b_rotations = (ft_lstsize(stack_b) - index_to_insert(stack_b, num));
 	}
 	else if (rev_rot < rot_rot && rev_rot < rot_rev && rev_rot < rev_rev)
 	{
 		ret.cost = rev_rot;
 		ret.mt = mt_rev_rot;
+		ret.a_rotations = (ft_lstsize(stack_a) - index);
+		ret.b_rotations = index_to_insert(stack_b, num);
 	}
 	else
 	{
 		ret.cost = rev_rev;
 		ret.mt = mt_rev_rev;
+		ret.a_rotations = (ft_lstsize(stack_a) - index);
+		ret.b_rotations = (ft_lstsize(stack_b) - index_to_insert(stack_b, num));
 	}
 	return (ret);
-// rot => index
-// rev => len - index
-//	min (
-	// max (rot,rot) 
-	// rot + rev
-	// rev + rot
-	// max (rev, rev)
 }
 
 // if the sign of the rotations is the same, then they can be combined and the
@@ -171,6 +179,8 @@ t_ix_move	index_of_cheapest(t_list *stack_a, t_list *stack_b)
 		if (i_curr == 0 || current_cost.cost < lowest_cost)
 		{
 			cheapest.index = i_curr;
+			cheapest.a_rotations = current_cost.a_rotations;
+			cheapest.b_rotations = current_cost.b_rotations;
 			cheapest.mt = current_cost.mt;
 			lowest_cost = current_cost.cost;
 		}
@@ -185,11 +195,41 @@ t_ix_move	index_of_cheapest(t_list *stack_a, t_list *stack_b)
 	// 
 }
 
+// TODO: add_instr() can fail
+void	rot_rot_into_b(t_list **stack_a, t_list **stack_b,
+		t_list **instructions, t_ix_move moveinfo)
+{
+	while (moveinfo.a_rotations > 0 && moveinfo.b_rotations > 0)
+	{
+		rotate(stack_a);
+		rotate(stack_b);
+		add_instr(instructions, "rr");
+		moveinfo.a_rotations--;
+		moveinfo.b_rotations--;
+	}
+	while (moveinfo.a_rotations > 0)
+	{
+		rotate(stack_a);
+		add_instr(instructions, "ra");
+		moveinfo.a_rotations--;
+	}
+	while (moveinfo.b_rotations > 0)
+	{
+		rotate(stack_b);
+		add_instr(instructions, "rb");
+		moveinfo.b_rotations--;
+	}
+	pb(stack_a, stack_b, instructions);
+}
+
 void	sort_into_b(t_list **stack_a, t_list **stack_b, t_list **instructions)
 {
-	t_ix_move	index_of_cheapest;
+	t_ix_move	cheapest;
 
-	index_of_cheapest = index_of_cheapest(*stack_a, *stack_b);
+	cheapest = index_of_cheapest(*stack_a, *stack_b);
+	if (cheapest.mt == mt_rot_rot)
+		rot_rot_into_b(stack_a, stack_b, instructions, cheapest);
+	
 
 }
 
