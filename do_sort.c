@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 14:09:16 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/13 17:03:31 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/14 15:01:00 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -384,20 +384,20 @@ int	index_to_insert_to_a(t_list *stack, int num)
 void	move_back_a(t_list **stack_a, t_list **stack_b, t_list **instructions)
 {
 	int	index_a;
-	t_list	*head_b;
 
-	head_b = *stack_b;
-	while (head_b)
+	if (!(*stack_b))
+		return ;
+	while (*stack_b)
 	{
-		index_a = index_to_insert_to_a(*stack_a, *(int *) head_b->content);
+		index_a = index_to_insert_to_a(*stack_a, *(int *) (*stack_b)->content);
 		while (index_a > 0)
 		{
 			rotate(stack_a);
 			add_instr(instructions, "ra");
+			index_a--;
 		}
 		push_ab(stack_b, stack_a);
 		add_instr(instructions, "pa");
-		head_b = head_b->next;
 	}
 }
 
@@ -421,7 +421,7 @@ int	turksort(t_list **stack_a, t_list **stack_b, t_list **instructions)
 	int	len_b;
 	// push two numbers from A to B
 	pb(stack_a, stack_b, instructions);
-	pb(stack_a, stack_b, instructions);
+	//pb(stack_a, stack_b, instructions);
 
 	// find cheapest number in A to push into correct place in B, we want B to
 	// end up in descending order. 
@@ -450,7 +450,7 @@ int	turksort(t_list **stack_a, t_list **stack_b, t_list **instructions)
 	// 		start pushing from the top of B back to A
 	// 		but we still need to check where to push
 	len_b = ft_lstsize(*stack_b);
-	while (len_b > 0) // this ends up skipping is A was sorted the whole time
+	while (len_b > 0) // this ends up skipping if A was sorted the whole time
 	{
 		move_back_a(stack_a, stack_b, instructions);
 		len_b--;
@@ -458,49 +458,6 @@ int	turksort(t_list **stack_a, t_list **stack_b, t_list **instructions)
 
 	// 		when B is empty rotate A until smallest number is on top
 	rot_smallest_top(stack_a, instructions);	
-	return (0);
-}
-
-// push len -1 elements to stack B, leaving largest in A
-// return the same elements to stack A
-// on the second round we push len -2 elements leaving behind the two largest
-// ones in order and so on and so on
-// TODO save lines by using exit() in add_instr() ?
-// TODO put bubblesort in its own file but leave stack manipulators
-int	bubblesort(t_list **stack_a, t_list **stack_b, t_list **instructions)
-{
-	int		len;
-	int		i;
-	
-	len = ft_lstsize(*stack_a);
-	while (len > 0)
-	{
-		i = len - 1;
-		while (i > 0)
-		{
-			if (*(int *) (*stack_a)->content >
-					*(int *) (*stack_a)->next->content)
-			{
-				swap_top(*stack_a);
-				if (add_instr(instructions, "sa"))
-					return (1);
-			}
-			push_ab(stack_a, stack_b);
-			if (add_instr(instructions, "pb"))
-				return (1);
-			i--;
-		}
-		i = len - 1;
-		while (i > 0)
-		{
-			push_ab(stack_b, stack_a);
-			if (add_instr(instructions, "pa"))
-				return (1);
-			i--;
-		}
-		// at this point we could test if the array is already sorted
-		len--;
-	}
 	return (0);
 }
 
@@ -531,5 +488,45 @@ int	do_sort(t_list **stack_a, t_list **stack_b, t_list **instructions)
 		sort_three(stack_a, instructions);
 		return (0);
 	}
+// DEBUGGING
+/*
+	ft_printf("stack A: \n");
+	print_stack(*stack_a);
+	ft_printf("stack B: \n");
+	print_stack(*stack_b);
+
+	pb(stack_a, stack_b, instructions);
+	ft_printf("stack A: \n");
+	print_stack(*stack_a);
+	ft_printf("stack B: \n");
+	print_stack(*stack_b);
+
+	swap_top(*stack_a);
+	ft_printf("stack A: \n");
+	print_stack(*stack_a);
+	
+	rotate(stack_a);
+	ft_printf("stack A: \n");
+	print_stack(*stack_a);
+
+	reverse_rotate(stack_a);
+	ft_printf("stack A: \n");
+	print_stack(*stack_a);
+
+	rotate(stack_b);
+	ft_printf("stack B: \n");
+	print_stack(*stack_b);
+
+	reverse_rotate(stack_b);
+	ft_printf("stack B: \n");
+	print_stack(*stack_b);
+
+	pb(stack_b, stack_a, instructions);
+	ft_printf("stack A: \n");
+	print_stack(*stack_a);
+	ft_printf("stack B: \n");
+	print_stack(*stack_b);
+	return (0);
+	*/
 	return (turksort(stack_a, stack_b, instructions));
 }

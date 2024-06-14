@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 09:48:04 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/13 16:29:06 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/14 15:01:01 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,13 @@ t_list	*pop(t_list **stack)
 {
 	t_list	*old_head;
 	t_list	*new_head;
-
+	
+	if (!(*stack)->next)
+	{
+		new_head = *stack;
+		*stack = 0;
+		return (new_head);
+	}
 	old_head = *stack;
 	new_head = old_head->next;
 	*stack = new_head;
@@ -48,6 +54,8 @@ void	rotate(t_list **stack)
 {
 	t_list	*old_head;
 
+	if (!(*stack)->next)
+		return ;
 	old_head = pop(stack);
 	ft_lstadd_back(stack, old_head);
 }
@@ -70,6 +78,7 @@ void	reverse_rotate(t_list **stack)
 		tmp = tmp->next;
 	}
 	tail = tmp->next;
+	tail->next = 0;
 	tmp->next = 0;
 	ft_lstadd_front(stack, tail);
 }
