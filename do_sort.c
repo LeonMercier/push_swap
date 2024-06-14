@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 14:09:16 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/14 15:01:00 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/14 16:26:02 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -457,7 +457,7 @@ int	turksort(t_list **stack_a, t_list **stack_b, t_list **instructions)
 	}
 
 	// 		when B is empty rotate A until smallest number is on top
-	rot_smallest_top(stack_a, instructions);	
+	//rot_smallest_top(stack_a, instructions);	
 	return (0);
 }
 
@@ -500,11 +500,15 @@ int	do_sort(t_list **stack_a, t_list **stack_b, t_list **instructions)
 	print_stack(*stack_a);
 	ft_printf("stack B: \n");
 	print_stack(*stack_b);
-
+*/
+/*	
 	swap_top(*stack_a);
 	ft_printf("stack A: \n");
 	print_stack(*stack_a);
-	
+	ft_printf("stack B: \n");
+	print_stack(*stack_b);
+	*/
+/*	
 	rotate(stack_a);
 	ft_printf("stack A: \n");
 	print_stack(*stack_a);
@@ -526,7 +530,8 @@ int	do_sort(t_list **stack_a, t_list **stack_b, t_list **instructions)
 	print_stack(*stack_a);
 	ft_printf("stack B: \n");
 	print_stack(*stack_b);
-	return (0);
 	*/
+	//return (0);
+	
 	return (turksort(stack_a, stack_b, instructions));
 }
