@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 14:09:16 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/17 16:17:11 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/17 16:34:57 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -320,34 +320,61 @@ int	index_to_insert_to_a(t_list *stack, int num)
 	return (index_of_bigger_a(stack, num));
 }
 
-// TODO: consider case of reverse rotating stack A
 void	move_back_a(t_list **stack_a, t_list **stack_b, t_list **instructions)
 {
 	int	index_a;
+	int	rev_index;
 
 	if (!(*stack_b))
 		return ;
 	while (*stack_b)
 	{
 		index_a = index_to_insert_to_a(*stack_a, *(int *)(*stack_b)->content);
-		while (index_a > 0)
+		rev_index = ft_lstsize(*stack_a) - index_a;
+		if (rev_index < index_a)
 		{
-			ra(stack_a, stack_b, instructions);
-			index_a--;
+			while (rev_index > 0)
+			{
+				rra(stack_a, stack_b, instructions);
+				rev_index--;
+			}
+		}
+		else
+		{
+			while (index_a > 0)
+			{
+				ra(stack_a, stack_b, instructions);
+				index_a--;
+			}
 		}
 		pa(stack_a, stack_b, instructions);
 	}
 }
 
-// TODO: consider reverse rotating
 void	rot_smallest_top(t_list **stack_a, t_list **stack_b, t_list **instructions)
 {
 	int	min;
+	int	index;
+	int	rev_index;
 
 	min = get_min(*stack_a);
-	while (*(int *)(*stack_a)->content != min)
+	index = index_of_num(*stack_a, min);
+	rev_index = ft_lstsize(*stack_a) - index;
+	if (index < rev_index)
 	{
-		ra(stack_a, stack_b, instructions);
+		while (index > 0)
+		{
+			ra(stack_a, stack_b, instructions);
+			index--;
+		}
+	}
+	else
+	{
+		while (rev_index > 0)
+		{
+			rra(stack_a, stack_b, instructions);
+			rev_index--;
+		}
 	}
 }
 
