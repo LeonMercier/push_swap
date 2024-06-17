@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:44:45 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/17 12:09:09 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/17 12:20:12 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	is_valid_number(char *str)
 	return (0);
 }
 
-static int has_number(t_list *stack, int num)
+static int	has_number(t_list *stack, int num)
 {
 	while (stack)
 	{
@@ -49,7 +49,7 @@ static void	free_strv(char **strv)
 	free(strv_head);
 }
 
-int	parse_num(t_list **stack, char **strv)
+static int	parse_num(t_list **stack, char **strv)
 {
 	int		*num;
 	t_list	*node;
@@ -62,13 +62,8 @@ int	parse_num(t_list **stack, char **strv)
 		if (!is_valid_number(*strv) || !num)
 			return (1);
 		*num = ft_atoi(*strv);
-		if (has_number(*stack, *num))
-		{
-			free(num);
-			return (1);
-		}
 		node = ft_lstnew(num);
-		if (!node)
+		if (!node || has_number(*stack, *num))
 		{
 			free(num);
 			return (1);

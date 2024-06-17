@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 14:25:37 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/13 12:28:58 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/17 12:18:23 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ int	print_instructions(t_list *instructions)
 	if (instructions)
 	{
 		if (instructions->content)
-			ft_printf("%s\n",((char*) instructions->content));
+			ft_printf("%s\n", ((char *) instructions->content));
 		if (instructions->next)
 			print_instructions(instructions->next);
 	}
 	return (0);
-}	
+}

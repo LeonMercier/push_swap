@@ -6,7 +6,7 @@
 #    By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/24 10:50:44 by lemercie          #+#    #+#              #
-#    Updated: 2024/06/13 16:33:50 by lemercie         ###   ########.fr        #
+#    Updated: 2024/06/17 12:12:10 by lemercie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ CC = cc
 #CFLAGS = -Wall -Wextra -Werror
 CFLAGS = -g -fsanitize=address -Wall -Wextra -Werror
 
-SRCS = push_swap.c parse_input.c do_sort.c print_instructions.c test_utils.c \
+SRCS = push_swap.c parse_input.c do_sort.c instruction_ops.c test_utils.c \
 	  stack_ops.c sort_ops.c
 
 OBJS = $(SRCS:.c=.o)

@@ -6,12 +6,11 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 09:48:04 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/14 15:01:01 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/17 12:24:35 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
 
 void	swap_top(t_list *stack)
 {
@@ -26,7 +25,7 @@ t_list	*pop(t_list **stack)
 {
 	t_list	*old_head;
 	t_list	*new_head;
-	
+
 	if (!(*stack)->next)
 	{
 		new_head = *stack;
@@ -62,9 +61,9 @@ void	rotate(t_list **stack)
 
 void	reverse_rotate(t_list **stack)
 {
-	t_list *tmp;
-	t_list *tail;
-	   
+	t_list	*tmp;
+	t_list	*tail;
+
 	tmp = *stack;
 	if (!(*stack)->next)
 		return ;
@@ -82,6 +81,3 @@ void	reverse_rotate(t_list **stack)
 	tmp->next = 0;
 	ft_lstadd_front(stack, tail);
 }
-
-	
-	
