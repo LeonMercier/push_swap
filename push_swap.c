@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:39:57 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/17 12:01:47 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/17 14:40:48 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 //https://cs.stackexchange.com/questions/90202/sorting-a-stack-using-bubble-sort
@@ -17,11 +17,13 @@
 //
 #include "push_swap.h"
 
-static void	cleanup(t_list **stack_a, t_list **stack_b, t_list **instructions)
+void	cleanup(t_list **stack_a, t_list **stack_b, t_list **instructions)
 {
 	ft_lstclear(stack_a, free);
 	ft_lstclear(stack_b, free);
 	ft_lstclear(instructions, free);
+	ft_printf("Error\n");
+	exit(1);
 }
 
 // return 0 on success

@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:02:57 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/13 17:03:32 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/17 13:52:57 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_moveinfo
 	t_movetype mt;
 } t_moveinfo;
 
+void	cleanup(t_list **stack_a, t_list **stack_b, t_list **instructions);
 void	swap_top(t_list *stack);
 t_list	*pop(t_list **stack);
 void	push_ab(t_list **stack_a, t_list **stack_b);
@@ -42,7 +43,11 @@ int		is_sorted(t_list *stack);
 void	print_stack(t_list *stack);
 int		add_instr(t_list **instructions, char *instr);
 int		print_instructions(t_list *instructions);
+void	pa(t_list **stack_a, t_list **stack_b, t_list **instructions);
 void	pb(t_list **stack_a, t_list **stack_b, t_list **instructions);
+void	sa(t_list **stack_a, t_list **stack_b, t_list **instructions);
+void	ra(t_list **stack_a, t_list **stack_b, t_list **instructions);
+void	rra(t_list **stack_a, t_list **stack_b, t_list **instructions);
 int		do_sort(t_list **stack_a, t_list **stack_b, t_list **instructions);
 int		parse_input(int argc, char **argv, t_list **stack_a);
 #endif
