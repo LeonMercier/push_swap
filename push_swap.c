@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:39:57 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/14 15:06:37 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/17 12:01:47 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 //https://cs.stackexchange.com/questions/90202/sorting-a-stack-using-bubble-sort
@@ -43,10 +43,10 @@ static int	do_thing(int argc, char **argv)
 		cleanup(&stack_a, &stack_b, &instructions);
 		return (1);
 	}
-	ft_printf("\n-A-\n");
-	print_stack(stack_a);
-	ft_printf("\n-B-\n");
-	print_stack(stack_b);
+//	ft_printf("\n-A-\n");
+//	print_stack(stack_a);
+//	ft_printf("\n-B-\n");
+//	print_stack(stack_b);
 	if (print_instructions(instructions))
 	{
 		cleanup(&stack_a, &stack_b, &instructions);

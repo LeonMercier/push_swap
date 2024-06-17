@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 14:09:16 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/14 16:26:02 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/17 11:55:07 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -314,7 +314,8 @@ void	sort_three(t_list **stack, t_list **instructions)
 	if (is_sorted(*stack))
 		return ;
 	if (top < middle && middle > bottom && top < bottom)
-	{
+	{	
+	//	ft_printf("sort three()\n");
 		swap_top(*stack);
 		add_instr(instructions, "sa");
 		rotate(stack);
@@ -322,21 +323,25 @@ void	sort_three(t_list **stack, t_list **instructions)
 	}
 	else if (top < middle && middle > bottom && top > bottom)
 	{
+	//	ft_printf("sort three()\n");
 		reverse_rotate(stack);
 		add_instr(instructions, "rra");
 	}
 	else if (top > middle && middle < bottom && top < bottom)
 	{
+	//	ft_printf("sort three()\n");
 		swap_top(*stack);
 		add_instr(instructions, "sa");
 	}
 	else if (top > middle && middle < bottom && top > bottom)
 	{
+	//	ft_printf("sort three()\n");
 		rotate(stack);
 		add_instr(instructions, "ra");
 	}
 	else if (top > middle && middle > bottom && top > bottom)
 	{
+	//	ft_printf("sort three()\n");
 		swap_top(*stack);
 		add_instr(instructions, "sa");
 		reverse_rotate(stack);
@@ -370,14 +375,15 @@ int	index_of_bigger_a(t_list *stack, int num)
 // returns the index of the number above which we want to insert
 int	index_to_insert_to_a(t_list *stack, int num)
 {
-	// if inserting bigger than max or smaller than min: rotate max to top
+	// if inserting bigger than max or smaller than min: rotate min to top
 	if (num > get_max(stack) || num < get_min(stack))
 	{
-		return (index_of_num(stack, get_max(stack)));
+		return (index_of_num(stack, get_min(stack)));
 	}
 	// if inserting in the middle: rotate the biggest number that is still
 	// smaller than num to the top
-	return (index_of_smaller(stack, num));
+	// SMALLEST BIGGER
+	return (index_of_bigger_a(stack, num));
 }
 
 // TODO: consider case of reverse rotating stack A
@@ -390,6 +396,7 @@ void	move_back_a(t_list **stack_a, t_list **stack_b, t_list **instructions)
 	while (*stack_b)
 	{
 		index_a = index_to_insert_to_a(*stack_a, *(int *) (*stack_b)->content);
+	//	ft_printf("index_a: %i\n", index_a);
 		while (index_a > 0)
 		{
 			rotate(stack_a);
@@ -407,6 +414,7 @@ void	rot_smallest_top(t_list **stack, t_list **instructions)
 	int	min;
 
 	min = get_min(*stack);
+//	ft_printf("min: %i\n", min);
 	while (*(int *) (*stack)->content != min)
 	{
 		rotate(stack);
@@ -457,7 +465,7 @@ int	turksort(t_list **stack_a, t_list **stack_b, t_list **instructions)
 	}
 
 	// 		when B is empty rotate A until smallest number is on top
-	//rot_smallest_top(stack_a, instructions);	
+	rot_smallest_top(stack_a, instructions);	
 	return (0);
 }
 
