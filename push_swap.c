@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:39:57 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/17 15:34:08 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/17 18:22:23 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static int	do_thing(int argc, char **argv)
 		cleanup(&stack_a, &stack_b, &instructions);
 		return (1);
 	}
+	print_stack(stack_a);
 	return (0);
 }
 

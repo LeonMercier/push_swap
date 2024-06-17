@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 14:09:16 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/17 16:34:57 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/17 18:26:31 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,7 @@ t_moveinfo	index_of_cheapest(t_list *stack_a, t_list *stack_b)
 		stack_a = stack_a->next;
 		i_curr++;
 	}
+//	ft_printf("mt %i\n", cheapest.mt);
 	return (cheapest);
 }
 
@@ -246,13 +247,25 @@ void	sort_into_b(t_list **stack_a, t_list **stack_b, t_list **instructions)
 
 	cheapest = index_of_cheapest(*stack_a, *stack_b);
 	if (cheapest.mt == mt_rot_rot)
+	{
+//		ft_printf("rot rot\n");
 		rot_rot_into_b(stack_a, stack_b, instructions, cheapest);
+	}
 	else if (cheapest.mt == mt_rot_rev)
+	{
+//		ft_printf("rot rev\n");
 		rot_rev_into_b(stack_a, stack_b, instructions, cheapest);
+	}
 	else if (cheapest.mt == mt_rev_rot)
+	{
+//		ft_printf("rev rot\n");
 		rev_rot_into_b(stack_a, stack_b, instructions, cheapest);
+	}
 	else if (cheapest.mt == mt_rev_rev)
+	{
+//		ft_printf("rev rev\n");
 		rev_rev_into_b(stack_a, stack_b, instructions, cheapest);
+	}
 }
 
 void	sort_three(t_list **stack_a, t_list **stack_b, t_list **instructions)
@@ -351,7 +364,7 @@ void	move_back_a(t_list **stack_a, t_list **stack_b, t_list **instructions)
 	}
 }
 
-void	rot_smallest_top(t_list **stack_a, t_list **stack_b, t_list **instructions)
+void	smallest_top(t_list **stack_a, t_list **stack_b, t_list **instructions)
 {
 	int	min;
 	int	index;
@@ -413,7 +426,7 @@ int	turksort(t_list **stack_a, t_list **stack_b, t_list **instructions)
 		move_back_a(stack_a, stack_b, instructions);
 		len_b--;
 	}
-	rot_smallest_top(stack_a, stack_b, instructions);
+	smallest_top(stack_a, stack_b, instructions);
 	return (0);
 }
 
