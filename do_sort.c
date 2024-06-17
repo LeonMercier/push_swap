@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 14:09:16 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/17 11:55:07 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/17 12:36:40 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ int	index_of_smaller(t_list *stack, int num)
 {
 	int	index;
 	int	index_smaller;
-	int biggest_smaller;
-	int curr;
+	int	biggest_smaller;
+	int	curr;
 
 	index = 0;
 	index_smaller = -1;
@@ -80,16 +80,16 @@ int	index_of_smaller(t_list *stack, int num)
 }
 
 // returns the index of the number above which we want to insert
+//		 if inserting bigger than max or smaller than min: rotate max to top
+//		 if inserting in the middle: rotate the biggest number that is still
+//			smaller than num to the top
 int	index_to_insert(t_list *stack, int num)
 {
-	// if inserting bigger than max or smaller than min: rotate max to top
 	if (num > get_max(stack) || num < get_min(stack))
 	{
 		return (index_of_num(stack, get_max(stack)));
 	}
-	// if inserting in the middle: rotate the biggest number that is still
-	// smaller than num to the top
-	return (index_of_smaller(stack, num));	
+	return (index_of_smaller(stack, num));
 }
 
 int	max(int a, int b)
@@ -110,15 +110,9 @@ int	min(int a, int b, int c, int d)
 	return (d);
 }
 
-t_moveinfo	get_lowest_cost(int index, int num, t_list *stack_a, t_list *stack_b)
+t_moveinfo	get_lowest_cost(int index, int num, t_list *stack_a,
+		t_list *stack_b)
 {
-// rot => index
-// rev => len - index
-//	min (
-	// max (rot,rot) 
-	// rot + rev
-	// rev + rot
-	// max (rev, rev)
 	int			rot_rot;
 	int			rot_rev;
 	int			rev_rot;
@@ -129,7 +123,7 @@ t_moveinfo	get_lowest_cost(int index, int num, t_list *stack_a, t_list *stack_b)
 	rot_rev = index + (ft_lstsize(stack_b) - index_to_insert(stack_b, num));
 	rev_rot = (ft_lstsize(stack_a) - index) + index_to_insert(stack_b, num);
 	rev_rev = max((ft_lstsize(stack_a) - index),
-		   	(ft_lstsize(stack_b) - index_to_insert(stack_b, num)));
+			(ft_lstsize(stack_b) - index_to_insert(stack_b, num)));
 	if (rot_rot < rot_rev && rot_rot < rev_rot && rot_rot < rev_rev)
 	{
 		ret.cost = rot_rot;
@@ -188,11 +182,6 @@ t_moveinfo	index_of_cheapest(t_list *stack_a, t_list *stack_b)
 		i_curr++;
 	}
 	return (cheapest);
-
-	// cost to rotate A + cost to rotate B
-	// BUT rotations of A and B can be combined if they are to the same
-	// direction
-	// 
 }
 
 // TODO: add_instr() can fail
@@ -314,8 +303,7 @@ void	sort_three(t_list **stack, t_list **instructions)
 	if (is_sorted(*stack))
 		return ;
 	if (top < middle && middle > bottom && top < bottom)
-	{	
-	//	ft_printf("sort three()\n");
+	{
 		swap_top(*stack);
 		add_instr(instructions, "sa");
 		rotate(stack);
@@ -323,25 +311,21 @@ void	sort_three(t_list **stack, t_list **instructions)
 	}
 	else if (top < middle && middle > bottom && top > bottom)
 	{
-	//	ft_printf("sort three()\n");
 		reverse_rotate(stack);
 		add_instr(instructions, "rra");
 	}
 	else if (top > middle && middle < bottom && top < bottom)
 	{
-	//	ft_printf("sort three()\n");
 		swap_top(*stack);
 		add_instr(instructions, "sa");
 	}
 	else if (top > middle && middle < bottom && top > bottom)
 	{
-	//	ft_printf("sort three()\n");
 		rotate(stack);
 		add_instr(instructions, "ra");
 	}
 	else if (top > middle && middle > bottom && top > bottom)
 	{
-	//	ft_printf("sort three()\n");
 		swap_top(*stack);
 		add_instr(instructions, "sa");
 		reverse_rotate(stack);
@@ -353,8 +337,8 @@ int	index_of_bigger_a(t_list *stack, int num)
 {
 	int	index;
 	int	index_smaller;
-	int smallest_bigger;
-	int curr;
+	int	smallest_bigger;
+	int	curr;
 
 	index = 0;
 	index_smaller = -1;
@@ -373,16 +357,15 @@ int	index_of_bigger_a(t_list *stack, int num)
 }
 
 // returns the index of the number above which we want to insert
+// 		if inserting bigger than max or smaller than min: rotate min to top
+// 		if inserting in the middle: rotate the smallest number that is still
+// 			 bigger than num to the top
 int	index_to_insert_to_a(t_list *stack, int num)
 {
-	// if inserting bigger than max or smaller than min: rotate min to top
 	if (num > get_max(stack) || num < get_min(stack))
 	{
 		return (index_of_num(stack, get_min(stack)));
 	}
-	// if inserting in the middle: rotate the biggest number that is still
-	// smaller than num to the top
-	// SMALLEST BIGGER
 	return (index_of_bigger_a(stack, num));
 }
 
@@ -395,8 +378,7 @@ void	move_back_a(t_list **stack_a, t_list **stack_b, t_list **instructions)
 		return ;
 	while (*stack_b)
 	{
-		index_a = index_to_insert_to_a(*stack_a, *(int *) (*stack_b)->content);
-	//	ft_printf("index_a: %i\n", index_a);
+		index_a = index_to_insert_to_a(*stack_a, *(int *)(*stack_b)->content);
 		while (index_a > 0)
 		{
 			rotate(stack_a);
@@ -414,8 +396,7 @@ void	rot_smallest_top(t_list **stack, t_list **instructions)
 	int	min;
 
 	min = get_min(*stack);
-//	ft_printf("min: %i\n", min);
-	while (*(int *) (*stack)->content != min)
+	while (*(int *)(*stack)->content != min)
 	{
 		rotate(stack);
 		add_instr(instructions, "ra");
@@ -423,14 +404,6 @@ void	rot_smallest_top(t_list **stack, t_list **instructions)
 }
 
 // This algo will need at least 5 numbers
-int	turksort(t_list **stack_a, t_list **stack_b, t_list **instructions)
-{
-	int	len_a;
-	int	len_b;
-	// push two numbers from A to B
-	pb(stack_a, stack_b, instructions);
-	//pb(stack_a, stack_b, instructions);
-
 	// find cheapest number in A to push into correct place in B, we want B to
 	// end up in descending order. 
 	// 		start calculating costs for each number
@@ -444,28 +417,28 @@ int	turksort(t_list **stack_a, t_list **stack_b, t_list **instructions)
 	// 		depends on rotations needed in B.
 	//
 	// 	If A is sorted at any point, we can stop moving stuff to B
+	// When only 3 numbers remain in A
+	// 		sort them in place
+int	turksort(t_list **stack_a, t_list **stack_b, t_list **instructions)
+{
+	int	len_a;
+	int	len_b;
+
+	pb(stack_a, stack_b, instructions);
 	len_a = ft_lstsize(*stack_a);
 	while (len_a > 3 && !is_sorted(*stack_a))
 	{
 		sort_into_b(stack_a, stack_b, instructions);
 		len_a--;
 	}
-
-	// When only 3 numbers remain in A
-	// 		sort them in place
-	sort_three(stack_a, instructions); //skip if already sorted
-	
-	// 		start pushing from the top of B back to A
-	// 		but we still need to check where to push
+	sort_three(stack_a, instructions);
 	len_b = ft_lstsize(*stack_b);
-	while (len_b > 0) // this ends up skipping if A was sorted the whole time
+	while (len_b > 0)
 	{
 		move_back_a(stack_a, stack_b, instructions);
 		len_b--;
 	}
-
-	// 		when B is empty rotate A until smallest number is on top
-	rot_smallest_top(stack_a, instructions);	
+	rot_smallest_top(stack_a, instructions);
 	return (0);
 }
 
@@ -490,56 +463,11 @@ int	do_sort(t_list **stack_a, t_list **stack_b, t_list **instructions)
 		swap_top(*stack_a);
 		add_instr(instructions, "sa");
 		return (0);
-	}		
+	}
 	if (ft_lstsize(*stack_a) == 3)
 	{
 		sort_three(stack_a, instructions);
 		return (0);
 	}
-// DEBUGGING
-/*
-	ft_printf("stack A: \n");
-	print_stack(*stack_a);
-	ft_printf("stack B: \n");
-	print_stack(*stack_b);
-
-	pb(stack_a, stack_b, instructions);
-	ft_printf("stack A: \n");
-	print_stack(*stack_a);
-	ft_printf("stack B: \n");
-	print_stack(*stack_b);
-*/
-/*	
-	swap_top(*stack_a);
-	ft_printf("stack A: \n");
-	print_stack(*stack_a);
-	ft_printf("stack B: \n");
-	print_stack(*stack_b);
-	*/
-/*	
-	rotate(stack_a);
-	ft_printf("stack A: \n");
-	print_stack(*stack_a);
-
-	reverse_rotate(stack_a);
-	ft_printf("stack A: \n");
-	print_stack(*stack_a);
-
-	rotate(stack_b);
-	ft_printf("stack B: \n");
-	print_stack(*stack_b);
-
-	reverse_rotate(stack_b);
-	ft_printf("stack B: \n");
-	print_stack(*stack_b);
-
-	pb(stack_b, stack_a, instructions);
-	ft_printf("stack A: \n");
-	print_stack(*stack_a);
-	ft_printf("stack B: \n");
-	print_stack(*stack_b);
-	*/
-	//return (0);
-	
 	return (turksort(stack_a, stack_b, instructions));
 }
