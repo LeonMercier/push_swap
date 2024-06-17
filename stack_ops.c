@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 09:48:04 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/17 12:24:35 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/17 16:17:16 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ t_list	*pop(t_list **stack)
 	return (old_head);
 }
 
-// The biggest number always remains in A, therefore we would NOT call this
-// function if A is empty.
 void	push_ab(t_list **stack_a, t_list **stack_b)
 {
 	t_list	*old_head_a;

@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 14:09:16 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/17 14:53:53 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/17 16:17:11 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,7 @@ int	index_of_smaller(t_list *stack, int num)
 int	index_to_insert(t_list *stack, int num)
 {
 	if (num > get_max(stack) || num < get_min(stack))
-	{
 		return (index_of_num(stack, get_max(stack)));
-	}
 	return (index_of_smaller(stack, num));
 }
 
@@ -97,17 +95,6 @@ int	max(int a, int b)
 	if (a >= b)
 		return (a);
 	return (b);
-}
-
-int	min(int a, int b, int c, int d)
-{
-	if (a < b && a < c && a < d)
-		return (a);
-	if (b < a && b < c && b < d)
-		return (b);
-	if (c < a && c < b && c < d)
-		return (c);
-	return (d);
 }
 
 static t_moveinfo	set_moveinfo(int cost, t_movetype mt, int a_rot, int b_rot)
@@ -132,8 +119,8 @@ t_moveinfo	get_lowest_cost(int index, int num, t_list *stack_a,
 	rot_rot = max(index, index_to_insert(stack_b, num));
 	rot_rev = index + (ft_lstsize(stack_b) - index_to_insert(stack_b, num));
 	rev_rot = (ft_lstsize(stack_a) - index) + index_to_insert(stack_b, num);
-	rev_rev = max((ft_lstsize(stack_a) - index),
-			(ft_lstsize(stack_b) - index_to_insert(stack_b, num)));
+	rev_rev = max(ft_lstsize(stack_a) - index,
+			ft_lstsize(stack_b) - index_to_insert(stack_b, num));
 	if (rot_rot < rot_rev && rot_rot < rev_rot && rot_rot < rev_rev)
 		return (set_moveinfo(rot_rot, mt_rot_rot, index,
 				index_to_insert(stack_b, num)));
@@ -177,28 +164,23 @@ t_moveinfo	index_of_cheapest(t_list *stack_a, t_list *stack_b)
 	return (cheapest);
 }
 
-// TODO: add_instr() can fail
 void	rot_rot_into_b(t_list **stack_a, t_list **stack_b,
 		t_list **instructions, t_moveinfo moveinfo)
 {
 	while (moveinfo.a_rotations > 0 && moveinfo.b_rotations > 0)
 	{
-		rotate(stack_a);
-		rotate(stack_b);
-		add_instr(instructions, "rr");
+		rr(stack_a, stack_b, instructions);
 		moveinfo.a_rotations--;
 		moveinfo.b_rotations--;
 	}
 	while (moveinfo.a_rotations > 0)
 	{
-		rotate(stack_a);
-		add_instr(instructions, "ra");
+		ra(stack_a, stack_b, instructions);
 		moveinfo.a_rotations--;
 	}
 	while (moveinfo.b_rotations > 0)
 	{
-		rotate(stack_b);
-		add_instr(instructions, "rb");
+		rb(stack_a, stack_b, instructions);
 		moveinfo.b_rotations--;
 	}
 	pb(stack_a, stack_b, instructions);
@@ -209,14 +191,12 @@ void	rot_rev_into_b(t_list **stack_a, t_list **stack_b,
 {
 	while (moveinfo.a_rotations > 0)
 	{
-		rotate(stack_a);
-		add_instr(instructions, "ra");
+		ra(stack_a, stack_b, instructions);
 		moveinfo.a_rotations--;
 	}
 	while (moveinfo.b_rotations > 0)
 	{
-		reverse_rotate(stack_b);
-		add_instr(instructions, "rrb");
+		rrb(stack_a, stack_b, instructions);
 		moveinfo.b_rotations--;
 	}
 	pb(stack_a, stack_b, instructions);
@@ -227,14 +207,12 @@ void	rev_rot_into_b(t_list **stack_a, t_list **stack_b,
 {
 	while (moveinfo.a_rotations > 0)
 	{
-		reverse_rotate(stack_a);
-		add_instr(instructions, "rra");
+		rra(stack_a, stack_b, instructions);
 		moveinfo.a_rotations--;
 	}
 	while (moveinfo.b_rotations > 0)
 	{
-		rotate(stack_b);
-		add_instr(instructions, "rb");
+		rb(stack_a, stack_b, instructions);
 		moveinfo.b_rotations--;
 	}
 	pb(stack_a, stack_b, instructions);
@@ -245,22 +223,18 @@ void	rev_rev_into_b(t_list **stack_a, t_list **stack_b,
 {
 	while (moveinfo.a_rotations > 0 && moveinfo.b_rotations > 0)
 	{
-		reverse_rotate(stack_a);
-		reverse_rotate(stack_b);
-		add_instr(instructions, "rrr");
+		rrr(stack_a, stack_b, instructions);
 		moveinfo.a_rotations--;
 		moveinfo.b_rotations--;
 	}
 	while (moveinfo.a_rotations > 0)
 	{
-		reverse_rotate(stack_a);
-		add_instr(instructions, "rra");
+		rra(stack_a, stack_b, instructions);
 		moveinfo.a_rotations--;
 	}
 	while (moveinfo.b_rotations > 0)
 	{
-		reverse_rotate(stack_b);
-		add_instr(instructions, "rrb");
+		rrb(stack_a, stack_b, instructions);
 		moveinfo.b_rotations--;
 	}
 	pb(stack_a, stack_b, instructions);
@@ -281,7 +255,6 @@ void	sort_into_b(t_list **stack_a, t_list **stack_b, t_list **instructions)
 		rev_rev_into_b(stack_a, stack_b, instructions, cheapest);
 }
 
-// TODO handle identical numbers
 void	sort_three(t_list **stack_a, t_list **stack_b, t_list **instructions)
 {
 	int		top;
@@ -291,7 +264,7 @@ void	sort_three(t_list **stack_a, t_list **stack_b, t_list **instructions)
 	top = *(int *)(*stack_a)->content;
 	middle = *(int *)(*stack_a)->next->content;
 	bottom = *(int *)(*stack_a)->next->next->content;
-	if (is_sorted(*stack_a))
+	if (is_sorted_circ(*stack_a))
 		return ;
 	if (top < middle && middle > bottom && top < bottom)
 	{
@@ -359,25 +332,22 @@ void	move_back_a(t_list **stack_a, t_list **stack_b, t_list **instructions)
 		index_a = index_to_insert_to_a(*stack_a, *(int *)(*stack_b)->content);
 		while (index_a > 0)
 		{
-			rotate(stack_a);
-			add_instr(instructions, "ra");
+			ra(stack_a, stack_b, instructions);
 			index_a--;
 		}
-		push_ab(stack_b, stack_a);
-		add_instr(instructions, "pa");
+		pa(stack_a, stack_b, instructions);
 	}
 }
 
 // TODO: consider reverse rotating
-void	rot_smallest_top(t_list **stack, t_list **instructions)
+void	rot_smallest_top(t_list **stack_a, t_list **stack_b, t_list **instructions)
 {
 	int	min;
 
-	min = get_min(*stack);
-	while (*(int *)(*stack)->content != min)
+	min = get_min(*stack_a);
+	while (*(int *)(*stack_a)->content != min)
 	{
-		rotate(stack);
-		add_instr(instructions, "ra");
+		ra(stack_a, stack_b, instructions);
 	}
 }
 
@@ -404,7 +374,7 @@ int	turksort(t_list **stack_a, t_list **stack_b, t_list **instructions)
 
 	pb(stack_a, stack_b, instructions);
 	len_a = ft_lstsize(*stack_a);
-	while (len_a > 3 && !is_sorted(*stack_a))
+	while (len_a > 3 && !is_sorted_circ(*stack_a))
 	{
 		sort_into_b(stack_a, stack_b, instructions);
 		len_a--;
@@ -416,8 +386,21 @@ int	turksort(t_list **stack_a, t_list **stack_b, t_list **instructions)
 		move_back_a(stack_a, stack_b, instructions);
 		len_b--;
 	}
-	rot_smallest_top(stack_a, instructions);
+	rot_smallest_top(stack_a, stack_b, instructions);
 	return (0);
+}
+
+
+// check is circular sorted
+int	is_sorted_circ(t_list *stack)
+{
+	while (stack->next)
+	{
+		if (*(int *) stack->content > *(int *) stack->next->content)
+			return (is_sorted(stack->next));
+		stack = stack->next;
+	}
+	return (1);
 }
 
 int	is_sorted(t_list *stack)
@@ -431,15 +414,13 @@ int	is_sorted(t_list *stack)
 	return (1);
 }
 
-// TODO handle stack with < 5 numbers here
 int	do_sort(t_list **stack_a, t_list **stack_b, t_list **instructions)
 {
 	if (is_sorted(*stack_a))
 		return (0);
 	if (ft_lstsize(*stack_a) == 2)
 	{
-		swap_top(*stack_a);
-		add_instr(instructions, "sa");
+		sa(stack_a, stack_b, instructions);
 		return (0);
 	}
 	if (ft_lstsize(*stack_a) == 3)

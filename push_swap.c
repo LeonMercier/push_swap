@@ -6,10 +6,10 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:39:57 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/17 14:46:38 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/17 15:34:08 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
- 
+
 #include "push_swap.h"
 
 void	cleanup(t_list **stack_a, t_list **stack_b, t_list **instructions)
