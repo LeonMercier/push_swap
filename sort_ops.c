@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 10:48:09 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/17 13:55:22 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/17 14:53:54 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	pa(t_list **stack_a, t_list **stack_b, t_list **instructions)
 	if (add_instr(instructions, "pa"))
 	{
 		cleanup(stack_a, stack_b, instructions);
-	}		
+	}
 }
 
 void	pb(t_list **stack_a, t_list **stack_b, t_list **instructions)
@@ -27,7 +27,7 @@ void	pb(t_list **stack_a, t_list **stack_b, t_list **instructions)
 	if (add_instr(instructions, "pb"))
 	{
 		cleanup(stack_a, stack_b, instructions);
-	}		
+	}
 }
 
 void	sa(t_list **stack_a, t_list **stack_b, t_list **instructions)
@@ -36,7 +36,7 @@ void	sa(t_list **stack_a, t_list **stack_b, t_list **instructions)
 	if (add_instr(instructions, "sa"))
 	{
 		cleanup(stack_a, stack_b, instructions);
-	}		
+	}
 }
 
 void	ra(t_list **stack_a, t_list **stack_b, t_list **instructions)

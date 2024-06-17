@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 14:09:16 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/17 14:44:19 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/17 14:53:53 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int	min(int a, int b, int c, int d)
 	return (d);
 }
 
-static t_moveinfo	set_mi(int cost, t_movetype mt, int a_rot, int b_rot)
+static t_moveinfo	set_moveinfo(int cost, t_movetype mt, int a_rot, int b_rot)
 {
 	t_moveinfo	ret;
 
@@ -135,16 +135,16 @@ t_moveinfo	get_lowest_cost(int index, int num, t_list *stack_a,
 	rev_rev = max((ft_lstsize(stack_a) - index),
 			(ft_lstsize(stack_b) - index_to_insert(stack_b, num)));
 	if (rot_rot < rot_rev && rot_rot < rev_rot && rot_rot < rev_rev)
-		return (set_mi(rot_rot, mt_rot_rot, index,
+		return (set_moveinfo(rot_rot, mt_rot_rot, index,
 				index_to_insert(stack_b, num)));
 	else if (rot_rev < rot_rot && rot_rev < rev_rot && rot_rev < rev_rev)
-		return (set_mi(rot_rev, mt_rot_rev, index,
+		return (set_moveinfo(rot_rev, mt_rot_rev, index,
 				ft_lstsize(stack_b) - index_to_insert(stack_b, num)));
 	else if (rev_rot < rot_rot && rev_rot < rot_rev && rev_rot < rev_rev)
-		return (set_mi(rev_rot, mt_rev_rot, ft_lstsize(stack_a) - index,
+		return (set_moveinfo(rev_rot, mt_rev_rot, ft_lstsize(stack_a) - index,
 				index_to_insert(stack_b, num)));
 	else
-		return (set_mi(rev_rev, mt_rev_rev, ft_lstsize(stack_a) - index,
+		return (set_moveinfo(rev_rev, mt_rev_rev, ft_lstsize(stack_a) - index,
 				ft_lstsize(stack_b) - index_to_insert(stack_b, num)));
 }
 
