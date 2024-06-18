@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:02:57 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/17 16:17:12 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/18 11:45:05 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,11 @@ void	rb(t_list **stack_a, t_list **stack_b, t_list **instructions);
 void	rrb(t_list **stack_a, t_list **stack_b, t_list **instructions);
 void	rr(t_list **stack_a, t_list **stack_b, t_list **instructions);
 void	rrr(t_list **stack_a, t_list **stack_b, t_list **instructions);
-int		do_sort(t_list **stack_a, t_list **stack_b, t_list **instructions);
+void	sort_into_b(t_list **stack_a, t_list **stack_b, t_list **instructions);
+void	sort_three(t_list **stack_a, t_list **stack_b, t_list **instructions);
+void	move_back_a(t_list **stack_a, t_list **stack_b, t_list **instructions);
+void	smallest_top(t_list **stack_a, t_list **stack_b, t_list **instructions);
+//int	turksort(t_list **stack_a, t_list **stack_b, t_list **instructions);
+//int		do_sort(t_list **stack_a, t_list **stack_b, t_list **instructions);
 int		parse_input(int argc, char **argv, t_list **stack_a);
 #endif

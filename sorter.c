@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 14:09:16 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/18 11:10:16 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/18 11:46:25 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,6 @@ static t_moveinfo	set_moveinfo(int cost, t_movetype mt, int a_rot, int b_rot)
 	return (ret);
 }
 
-// TODO this function is receiving a pointer to the middle of the stack, 
-// but expects lstsize to work
 t_moveinfo	get_lowest_cost(int index, int num, t_list *stack_a,
 		t_list *stack_b)
 {
@@ -143,7 +141,6 @@ t_moveinfo	get_lowest_cost(int index, int num, t_list *stack_a,
 t_moveinfo	index_of_cheapest(t_list *stack_a, t_list *stack_b)
 {
 	int			i_curr;
-	int			num_curr;
 	int			lowest_cost;
 	t_moveinfo	current_cost;
 	t_moveinfo	cheapest;
@@ -153,9 +150,7 @@ t_moveinfo	index_of_cheapest(t_list *stack_a, t_list *stack_b)
 	head_a = stack_a;
 	while (stack_a)
 	{
-		num_curr = *(int *) stack_a->content;
-		current_cost = get_lowest_cost(i_curr, num_curr, head_a, stack_b);
-	//	ft_printf("current: %i\n", current_cost.cost);
+		current_cost = get_lowest_cost(i_curr, *(int *) stack_a->content, head_a, stack_b);
 		if (i_curr == 0 || current_cost.cost < lowest_cost)
 		{
 			cheapest.index = i_curr;
@@ -167,7 +162,6 @@ t_moveinfo	index_of_cheapest(t_list *stack_a, t_list *stack_b)
 		stack_a = stack_a->next;
 		i_curr++;
 	}
-//	ft_printf("cheapest mt %i\n", cheapest.mt);
 	return (cheapest);
 }
 
@@ -352,18 +346,16 @@ void	move_back_a(t_list **stack_a, t_list **stack_b, t_list **instructions)
 		rev_index = ft_lstsize(*stack_a) - index_a;
 		if (rev_index < index_a)
 		{
-			while (rev_index > 0)
+			while (rev_index-- > 0)
 			{
 				rra(stack_a, stack_b, instructions);
-				rev_index--;
 			}
 		}
 		else
 		{
-			while (index_a > 0)
+			while (index_a-- > 0)
 			{
 				ra(stack_a, stack_b, instructions);
-				index_a--;
 			}
 		}
 		pa(stack_a, stack_b, instructions);
@@ -413,35 +405,6 @@ void	smallest_top(t_list **stack_a, t_list **stack_b, t_list **instructions)
 	// 	If A is sorted at any point, we can stop moving stuff to B
 	// When only 3 numbers remain in A
 	// 		sort them in place
-int	turksort(t_list **stack_a, t_list **stack_b, t_list **instructions)
-{
-	int	len_a;
-	int	len_b;
-
-	pb(stack_a, stack_b, instructions);
-	len_a = ft_lstsize(*stack_a);
-	while (len_a > 3 && !is_sorted_circ(*stack_a))
-	{
-		sort_into_b(stack_a, stack_b, instructions);
-		len_a--;
-	}
-//	ft_printf("A\n");
-//	print_stack(*stack_a);
-	sort_three(stack_a, stack_b, instructions);
-//	ft_printf("A\n");
-//	print_stack(*stack_a);
-//	ft_printf("B\n");
-//	print_stack(*stack_b);
-	len_b = ft_lstsize(*stack_b);
-	while (len_b > 0)
-	{
-		move_back_a(stack_a, stack_b, instructions);
-		len_b--;
-	}
-	smallest_top(stack_a, stack_b, instructions);
-	return (0);
-}
-
 
 // check is circular sorted
 int	is_sorted_circ(t_list *stack)
@@ -474,19 +437,3 @@ int	is_sorted(t_list *stack)
 	return (1);
 }
 
-int	do_sort(t_list **stack_a, t_list **stack_b, t_list **instructions)
-{
-	if (is_sorted(*stack_a))
-		return (0);
-	if (ft_lstsize(*stack_a) == 2)
-	{
-		sa(stack_a, stack_b, instructions);
-		return (0);
-	}
-	if (ft_lstsize(*stack_a) == 3)
-	{
-		sort_three(stack_a, stack_b, instructions);
-		return (0);
-	}
-	return (turksort(stack_a, stack_b, instructions));
-}
