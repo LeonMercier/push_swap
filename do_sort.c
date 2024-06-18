@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 14:09:16 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/17 18:26:31 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/18 10:46:21 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,12 @@ static t_moveinfo	set_moveinfo(int cost, t_movetype mt, int a_rot, int b_rot)
 	ret.mt = mt;
 	ret.a_rotations = a_rot;
 	ret.b_rotations = b_rot;
+//	ft_printf("moveinfo: %i\n", ret.mt);
 	return (ret);
 }
 
+// TODO this function is receiving a pointer to the middle of the stack, 
+// but expects lstsize to work
 t_moveinfo	get_lowest_cost(int index, int num, t_list *stack_a,
 		t_list *stack_b)
 {
@@ -144,12 +147,15 @@ t_moveinfo	index_of_cheapest(t_list *stack_a, t_list *stack_b)
 	int			lowest_cost;
 	t_moveinfo	current_cost;
 	t_moveinfo	cheapest;
+	t_list	*head_a;
 
 	i_curr = 0;
+	head_a = stack_a;
 	while (stack_a)
 	{
 		num_curr = *(int *) stack_a->content;
-		current_cost = get_lowest_cost(i_curr, num_curr, stack_a, stack_b);
+		current_cost = get_lowest_cost(i_curr, num_curr, head_a, stack_b);
+	//	ft_printf("current: %i\n", current_cost.cost);
 		if (i_curr == 0 || current_cost.cost < lowest_cost)
 		{
 			cheapest.index = i_curr;
@@ -161,7 +167,7 @@ t_moveinfo	index_of_cheapest(t_list *stack_a, t_list *stack_b)
 		stack_a = stack_a->next;
 		i_curr++;
 	}
-//	ft_printf("mt %i\n", cheapest.mt);
+//	ft_printf("cheapest mt %i\n", cheapest.mt);
 	return (cheapest);
 }
 
