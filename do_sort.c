@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 14:09:16 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/18 10:46:21 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/18 11:10:16 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -425,7 +425,13 @@ int	turksort(t_list **stack_a, t_list **stack_b, t_list **instructions)
 		sort_into_b(stack_a, stack_b, instructions);
 		len_a--;
 	}
+//	ft_printf("A\n");
+//	print_stack(*stack_a);
 	sort_three(stack_a, stack_b, instructions);
+//	ft_printf("A\n");
+//	print_stack(*stack_a);
+//	ft_printf("B\n");
+//	print_stack(*stack_b);
 	len_b = ft_lstsize(*stack_b);
 	while (len_b > 0)
 	{
@@ -440,10 +446,18 @@ int	turksort(t_list **stack_a, t_list **stack_b, t_list **instructions)
 // check is circular sorted
 int	is_sorted_circ(t_list *stack)
 {
+	t_list	*head;
+
+	head = stack;
 	while (stack->next)
 	{
 		if (*(int *) stack->content > *(int *) stack->next->content)
-			return (is_sorted(stack->next));
+		{
+			if (*(int *) stack->content == get_max(head))
+				return (is_sorted(stack->next));
+			else
+				return (0);
+		}
 		stack = stack->next;
 	}
 	return (1);
