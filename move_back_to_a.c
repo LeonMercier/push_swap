@@ -6,12 +6,14 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 14:09:17 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/19 14:10:32 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/19 16:16:49 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
+// For inserting into A:
+// return the index of hte smallest element that is bigger than num
 static int	index_of_bigger_a(t_list *stack, int num)
 {
 	int	index;
@@ -48,6 +50,8 @@ static int	index_to_insert_to_a(t_list *stack, int num)
 	return (index_of_bigger_a(stack, num));
 }
 
+// Take elements from the top of B and insert them into the correct location 
+// in A. Either rotate or reverse rotate A before inserting. 
 void	move_back_a(t_list **stack_a, t_list **stack_b, t_list **instructions)
 {
 	int	index_a;

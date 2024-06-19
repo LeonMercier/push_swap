@@ -6,12 +6,14 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 14:44:44 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/19 14:47:32 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/19 16:14:02 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
+// For inserting number into B:
+// 	Returns the index of the biggest element that is smaller than num
 static int	index_of_smaller(t_list *stack, int num)
 {
 	int	index;
@@ -35,10 +37,11 @@ static int	index_of_smaller(t_list *stack, int num)
 	return (index_smaller);
 }
 
-// returns the index of the number above which we want to insert
-//		 if inserting bigger than max or smaller than min: rotate max to top
-//		 if inserting in the middle: rotate the biggest number that is still
-//			smaller than num to the top
+// For inserting a number into B. 
+// Returns the index of the number above which we want to insert: 
+//	 if inserting bigger than max or smaller than min: rotate max to top
+//	 if inserting in the middle: rotate the biggest number that is still
+//		smaller than num to the top
 static	int	index_to_insert(t_list *stack, int num)
 {
 	if (num > get_max(stack) || num < get_min(stack))
@@ -57,6 +60,8 @@ static t_moveinfo	set_moveinfo(int cost, t_movetype mt, int a_rot, int b_rot)
 	return (ret);
 }
 
+// Return the combination of rotation directions that is the cheapest way to
+//  move the number.
 static t_moveinfo	get_lowest_cost(int index, int num, t_list *stack_a,
 		t_list *stack_b)
 {
@@ -84,8 +89,10 @@ static t_moveinfo	get_lowest_cost(int index, int num, t_list *stack_a,
 				ft_lstsize(stack_b) - index_to_insert(stack_b, num)));
 }
 
-// if the sign of the rotations is the same, then they can be combined and the
-// total cost is the highest cost of the two
+// Loop through A to find the element that can be moved into B using the least
+// amount of moves.
+// Returns a struct with the index of the element to be moved, the directions 
+// and numbers of rotations of both stacks to move it. 
 t_moveinfo	index_of_cheapest(t_list *stack_a, t_list *stack_b)
 {
 	int			i_curr;

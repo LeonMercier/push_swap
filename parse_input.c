@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:44:45 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/19 11:08:42 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/19 16:19:20 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ static void	free_strv(char **strv)
 	free(strv_head);
 }
 
+// Parse string array resulting from ft_split() in parse_input()
 static int	parse_num(t_list **stack, char **strv)
 {
 	int		*num;
@@ -72,6 +73,8 @@ static int	parse_num(t_list **stack, char **strv)
 	return (0);
 }
 
+// split each command line argument on spaces (even if argument is a single 
+// number)
 int	parse_input(int argc, char **argv, t_list **stack_a)
 {
 	int		i;

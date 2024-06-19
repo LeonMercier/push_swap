@@ -6,12 +6,15 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 14:09:16 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/19 14:48:20 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/19 16:04:29 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
+// mt_rot_rot: rotate both A and B forward
+// mt_rot_rev: rotate A forward and B backward
+// etc
 void	sort_into_b(t_list **stack_a, t_list **stack_b, t_list **instructions)
 {
 	t_moveinfo	cheapest;
@@ -61,6 +64,8 @@ void	sort_three(t_list **stack_a, t_list **stack_b, t_list **instructions)
 	}
 }
 
+// either rotate or reverse rotate teh stack until the smallest number is
+// on top
 void	smallest_top(t_list **stack_a, t_list **stack_b, t_list **instructions)
 {
 	int	min;

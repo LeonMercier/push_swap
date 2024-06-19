@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:39:57 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/19 15:02:44 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/19 17:38:46 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ static int	do_thing(int argc, char **argv)
 	return (cleanup_noexit(&stack_a, &stack_b, &instructions));
 }
 
+// TODO handle values outside int range
 int	main(int argc, char **argv)
 {
 	if (argc <= 1)
