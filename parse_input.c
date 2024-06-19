@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:44:45 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/17 12:20:12 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/19 09:25:31 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,7 @@ static int	parse_num(t_list **stack, char **strv)
 {
 	int		*num;
 	t_list	*node;
-	char	**strv_head;
 
-	strv_head = strv;
 	while (*strv)
 	{
 		num = (int *) malloc(sizeof(int));

@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 16:03:13 by lemercie          #+#    #+#             */
-/*   Updated: 2024/05/29 11:58:32 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/19 09:27:34 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*handle_int(int n)
 
 char	*handle_uint(unsigned int n)
 {
-	if (n < 0)
-		return (ft_itoa_long(UINT_MAX - (n + 1)));
+//	if (n < 0)
+//		return (ft_itoa_long(UINT_MAX - (n + 1)));
 	return (ft_itoa_long(n));
 }
