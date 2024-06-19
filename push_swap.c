@@ -6,28 +6,11 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:39:57 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/19 11:57:06 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/19 14:57:20 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-void	cleanup(t_list **stack_a, t_list **stack_b, t_list **instructions)
-{
-	ft_lstclear(stack_a, free);
-	ft_lstclear(stack_b, free);
-	ft_lstclear(instructions, free);
-	ft_printf("Error\n");
-	exit(1);
-}
-
-int	cleanup_noexit(t_list **stack_a, t_list **stack_b, t_list **instructions)
-{
-	ft_lstclear(stack_a, free);
-	ft_lstclear(stack_b, free);
-	ft_lstclear(instructions, free);
-	return (0);
-}
 
 int	turksort(t_list **stack_a, t_list **stack_b, t_list **instructions)
 {
@@ -40,13 +23,7 @@ int	turksort(t_list **stack_a, t_list **stack_b, t_list **instructions)
 		sort_into_b(stack_a, stack_b, instructions);
 		len_a--;
 	}
-//	ft_printf("A\n");
-//	print_stack(*stack_a);
 	sort_three(stack_a, stack_b, instructions);
-//	ft_printf("A\n");
-//	print_stack(*stack_a);
-//	ft_printf("B\n");
-//	print_stack(*stack_b);
 	len_b = ft_lstsize(*stack_b);
 	while (len_b > 0)
 	{
@@ -66,11 +43,6 @@ int	do_sort(t_list **stack_a, t_list **stack_b, t_list **instructions)
 		sa(stack_a, stack_b, instructions);
 		return (0);
 	}
-//	if (ft_lstsize(*stack_a) == 3)
-//	{
-//		sort_three(stack_a, stack_b, instructions);
-//		return (0);
-//	}
 	return (turksort(stack_a, stack_b, instructions));
 }
 
@@ -94,11 +66,7 @@ static int	do_thing(int argc, char **argv)
 		cleanup(&stack_a, &stack_b, &instructions);
 		return (0);
 	}
-	if (do_sort(&stack_a, &stack_b, &instructions))
-	{
-		cleanup(&stack_a, &stack_b, &instructions);
-		return (1);
-	}
+	do_sort(&stack_a, &stack_b, &instructions);
 	if (print_instructions(instructions))
 	{
 		cleanup(&stack_a, &stack_b, &instructions);
