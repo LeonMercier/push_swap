@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 14:09:16 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/19 09:59:12 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/19 10:18:31 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -283,7 +283,10 @@ void	sort_three(t_list **stack_a, t_list **stack_b, t_list **instructions)
 	middle = *(int *)(*stack_a)->next->content;
 	bottom = *(int *)(*stack_a)->next->next->content;
 	if (is_sorted_circ(*stack_a))
+	{
+//		ft_printf("sort three: is sorted circularly\n");
 		return ;
+	}
 	if (top < middle && middle > bottom && top < bottom)
 	{
 		sa(stack_a, stack_b, instructions);
@@ -415,16 +418,17 @@ void	smallest_top(t_list **stack_a, t_list **stack_b, t_list **instructions)
 int	is_sorted_circ(t_list *stack)
 {
 	t_list	*head;
+	int		first;
+	int		last;
 
 	head = stack;
+	first = *(int *) head->content;
+	last = *(int *) (ft_lstlast(head)->content);
 	while (stack->next)
 	{
 		if (*(int *) stack->content > *(int *) stack->next->content)
 		{
-			if (*(int *) stack->content == get_max(head))
-				return (is_sorted(stack->next));
-			else
-				return (0);
+			return (is_sorted(stack->next) && last < first);
 		}
 		stack = stack->next;
 	}
