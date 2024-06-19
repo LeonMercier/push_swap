@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:39:57 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/19 10:01:42 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/19 11:27:36 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,13 @@ void	cleanup(t_list **stack_a, t_list **stack_b, t_list **instructions)
 	ft_lstclear(instructions, free);
 	ft_printf("Error\n");
 	exit(1);
+}
+
+void	cleanup_noexit(t_list **stack_a, t_list **stack_b, t_list **instructions)
+{
+	ft_lstclear(stack_a, free);
+	ft_lstclear(stack_b, free);
+	ft_lstclear(instructions, free);
 }
 
 int	turksort(t_list **stack_a, t_list **stack_b, t_list **instructions)
@@ -67,18 +74,23 @@ int	do_sort(t_list **stack_a, t_list **stack_b, t_list **instructions)
 }
 
 // return 0 on success
+// TODO handle empty string as input
 static int	do_thing(int argc, char **argv)
 {
 	t_list	*instructions;
 	t_list	*stack_a;
 	t_list	*stack_b;
 
+	stack_a = 0;
+	stack_b = 0;
 	instructions = 0;
 	if (parse_input(argc, argv, &stack_a))
 	{
 		cleanup(&stack_a, &stack_b, &instructions);
 		return (1);
 	}
+	if (ft_lstsize(stack_a) <= 1)
+		return (0);
 	if (do_sort(&stack_a, &stack_b, &instructions))
 	{
 		cleanup(&stack_a, &stack_b, &instructions);
@@ -90,6 +102,7 @@ static int	do_thing(int argc, char **argv)
 		return (1);
 	}
 //	print_stack(stack_a);
+	cleanup_noexit(&stack_a, &stack_b, &instructions);
 	return (0);
 }
 
