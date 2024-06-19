@@ -6,13 +6,13 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:39:57 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/19 14:57:20 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/19 15:02:44 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	turksort(t_list **stack_a, t_list **stack_b, t_list **instructions)
+static void	turksort(t_list **stack_a, t_list **stack_b, t_list **instructions)
 {
 	int	len_a;
 	int	len_b;
@@ -31,19 +31,18 @@ int	turksort(t_list **stack_a, t_list **stack_b, t_list **instructions)
 		len_b--;
 	}
 	smallest_top(stack_a, stack_b, instructions);
-	return (0);
 }
 
-int	do_sort(t_list **stack_a, t_list **stack_b, t_list **instructions)
+static void	do_sort(t_list **stack_a, t_list **stack_b, t_list **instructions)
 {
 	if (is_sorted(*stack_a))
-		return (0);
+		return ;
 	if (ft_lstsize(*stack_a) == 2)
 	{
 		sa(stack_a, stack_b, instructions);
-		return (0);
+		return ;
 	}
-	return (turksort(stack_a, stack_b, instructions));
+	turksort(stack_a, stack_b, instructions);
 }
 
 // return 0 on success
