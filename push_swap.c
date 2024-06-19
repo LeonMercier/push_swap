@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:39:57 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/19 09:34:51 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/19 10:01:42 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int	turksort(t_list **stack_a, t_list **stack_b, t_list **instructions)
 	int	len_a;
 	int	len_b;
 
-//	pb(stack_a, stack_b, instructions);
 	len_a = ft_lstsize(*stack_a);
 	while (len_a > 3 && !is_sorted_circ(*stack_a))
 	{

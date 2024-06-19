@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   do_sort.c                                          :+:      :+:    :+:   */
+/*   sorter.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 14:09:16 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/18 11:46:25 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/19 09:59:12 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,6 +245,11 @@ void	sort_into_b(t_list **stack_a, t_list **stack_b, t_list **instructions)
 {
 	t_moveinfo	cheapest;
 
+	if (ft_lstsize(*stack_b) < 2)
+	{
+		pb(stack_a, stack_b, instructions);
+		return ;
+	}
 	cheapest = index_of_cheapest(*stack_a, *stack_b);
 	if (cheapest.mt == mt_rot_rot)
 	{
