@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:02:57 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/19 14:56:24 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/25 11:56:15 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@ typedef struct s_moveinfo
 
 // DEBUGGING test_utils.c
 void	print_stack(t_list *stack);
+
+//ft_atoi_safe.c
+int	ft_atoi_safe(const char *str, int *err_atoi);
 
 //cleanup.c
 void	cleanup(t_list **stack_a, t_list **stack_b, t_list **instructions);

@@ -6,7 +6,7 @@
 #    By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/24 10:50:44 by lemercie          #+#    #+#              #
-#    Updated: 2024/06/19 14:52:39 by lemercie         ###   ########.fr        #
+#    Updated: 2024/06/25 11:18:57 by lemercie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CFLAGS = -Wall -Wextra -Werror
 
 SRCS = push_swap.c parse_input.c sorter.c instruction_ops.c test_utils.c \
 	  stack_ops.c sort_ops.c sort_ops_more.c stack_utils.c utils.c \
-	  move_into_b.c move_back_to_a.c move_calcs.c cleanup.c
+	  move_into_b.c move_back_to_a.c move_calcs.c cleanup.c ft_atoi_safe.c
 
 OBJS = $(SRCS:.c=.o)
 
