@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:44:45 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/25 11:32:49 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/25 14:22:44 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ static int	parse_num(t_list **stack, char **strv)
 		if (!node || err_atoi || has_number(*stack, *num))
 		{
 			free(num);
+			if (node)
+				free(node);
 			return (1);
 		}
 		ft_lstadd_back(stack, node);
