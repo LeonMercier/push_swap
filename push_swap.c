@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:39:57 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/19 17:38:46 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/25 13:47:26 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,6 @@ int	main(int argc, char **argv)
 	if (argc <= 1)
 		return (1);
 	if (do_thing(argc, argv))
-		ft_printf("Error\n");
+		write(2, "Error\n", 6);
 	return (0);
 }
