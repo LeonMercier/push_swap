@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:44:45 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/25 14:22:44 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/25 16:14:40 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	parse_input(int argc, char **argv, t_list **stack_a)
 	while (i < argc)
 	{
 		strv = ft_split(argv[i], ' ');
-		if (!strv)
+		if (!strv || !*strv)
 			return (1);
 		if (parse_num(stack_a, strv))
 		{
