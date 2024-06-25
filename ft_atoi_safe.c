@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:16:46 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/25 11:47:44 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/25 14:05:55 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,17 @@
 static int	ft_iswhitespace(const char c)
 {
 	return ((c >= 9 && c <= 13) || c == 32);
+}
+
+static int	has_garbage(const char *str)
+{
+	while (*str)
+	{
+		if (*str < '0' || *str > '9')
+			return (1);
+		str++;
+	}
+	return (0);
 }
 
 static int	ft_atoi_loop(const char *str, int negative, int *err_atoi)
@@ -61,6 +72,11 @@ int	ft_atoi_safe(const char *str, int *err_atoi)
 		else if (*str != '+')
 			return (0);
 		str++;
+	}
+	if (has_garbage(str))
+	{
+		*err_atoi = 1;
+		return (0);
 	}
 	return (ft_atoi_loop(str, negative, err_atoi));
 }
