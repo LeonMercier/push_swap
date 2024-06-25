@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:17:26 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/19 09:29:31 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/25 12:38:12 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,24 +33,14 @@ char	*handle_hex(uintptr_t n, char hexcase)
 {
 	char		*result;
 	int			len;
-//	int			neg;
 
 	if (n == 0)
 		return (handle_string("0"));
-//	neg = 0;
-//	if (n < 0)
-//	{
-//		neg = 1;
-//		n = -n;
-//	}
-//	len = get_hexlen(n) + neg;
 	len = get_hexlen(n);
 	result = (char *) malloc(sizeof(char) * (len + 1));
 	if (!result)
 		return (0);
 	result[len] = 0;
 	handle_hex_helper(result, n, len, hexcase);
-//	if (neg)
-//		result[0] = '-';
 	return (result);
 }
