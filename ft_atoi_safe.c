@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:16:46 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/25 14:05:55 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/25 15:16:26 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,14 @@ static int	has_garbage(const char *str)
 
 static int	ft_atoi_loop(const char *str, int negative, int *err_atoi)
 {
-	long	temp;
-	long	result;
+	unsigned int	temp;
+	unsigned int	result;
+	unsigned int	one_over_max;
 
 	temp = 0;
 	result = 0;
+	one_over_max = INT_MAX;
+	one_over_max++;
 	while (ft_isdigit(*str))
 	{
 		temp = (temp * 10) + (*str++ - '0');
@@ -42,7 +45,7 @@ static int	ft_atoi_loop(const char *str, int negative, int *err_atoi)
 			*err_atoi = 1;
 		if (temp / 10 != result && !negative)
 			*err_atoi = 1;
-		if (temp > INT_MAX || temp < INT_MIN)
+		if ((!negative && temp > INT_MAX) || (negative && temp > one_over_max))
 			*err_atoi = 1;
 		if (*err_atoi)
 			return (0);

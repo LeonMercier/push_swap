@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:39:57 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/25 13:49:38 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/25 15:15:03 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static int	do_thing(int argc, char **argv)
 	}
 	if (ft_lstsize(stack_a) <= 1)
 	{
-		cleanup(&stack_a, &stack_b, &instructions);
+		cleanup_noexit(&stack_a, &stack_b, &instructions);
 		return (0);
 	}
 	do_sort(&stack_a, &stack_b, &instructions);
