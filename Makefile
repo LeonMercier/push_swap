@@ -6,7 +6,7 @@
 #    By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/24 10:50:44 by lemercie          #+#    #+#              #
-#    Updated: 2024/06/25 12:40:02 by lemercie         ###   ########.fr        #
+#    Updated: 2024/06/27 16:39:42 by lemercie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,20 +25,19 @@ NAME = push_swap
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	make bonus -C ./ft_printf/libft
-	make -C ./ft_printf
-	$(CC) $(CFLAGS) $(OBJS) ./ft_printf/libftprintf.a -o $(NAME)
+	make -C ./libft
+	$(CC) $(CFLAGS) $(OBJS) ./libft/libft.a -o $(NAME)
 
 %.o: %.c
 	${CC} ${CFLAGS} -c $< -o $@
 
 clean: 
 	rm -f *.o
-	make clean -C ./ft_printf
+	make clean -C ./libft
 
 fclean: clean
 	rm -f $(NAME)
-	make fclean -C ./ft_printf
+	make fclean -C ./libft
 
 re: fclean $(NAME)
 

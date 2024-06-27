@@ -6,11 +6,11 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 16:03:13 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/25 12:37:41 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/27 14:41:15 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "../libft.h"
 
 char	*handle_string(char *s)
 {

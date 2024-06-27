@@ -6,11 +6,11 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 09:50:44 by lemercie          #+#    #+#             */
-/*   Updated: 2024/05/29 13:51:16 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/27 14:39:10 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "../libft.h"
 
 int	put_char_buf(char **buf, int *buflen, char c)
 {

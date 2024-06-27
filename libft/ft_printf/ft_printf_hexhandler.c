@@ -6,11 +6,11 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:17:26 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/25 12:38:12 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/27 14:40:13 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "../libft.h"
 
 static void	handle_hex_helper(char *result, uintptr_t n, int len, char hexcase)
 {

@@ -6,12 +6,15 @@
 #    By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/24 10:50:44 by lemercie          #+#    #+#              #
-#    Updated: 2024/05/07 16:10:29 by lemercie         ###   ########.fr        #
+#    Updated: 2024/06/27 14:44:12 by lemercie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
+
+FT_PRINTF = ft_printf/
+GNL = get_next_line/
 
 SRCS = ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c \
 	   ft_strlen.c ft_memset.c ft_bzero.c ft_memcpy.c ft_memmove.c \
@@ -25,33 +28,34 @@ SRCS_BONUS = ft_lstnew_bonus.c ft_lstadd_front_bonus.c ft_lstsize_bonus.c \
 			 ft_lstlast_bonus.c ft_lstadd_back_bonus.c ft_lstdelone_bonus.c \
 			 ft_lstclear_bonus.c ft_lstiter_bonus.c ft_lstmap_bonus.c
 
-OBJS = $(SRCS:.c=.o)
+SRCS_FT_PRINTF = $(FT_PRINTF)ft_itoa_long.c $(FT_PRINTF)ft_printf.c \
+				 $(FT_PRINTF)ft_printf_conversions.c \
+				 $(FT_PRINTF)ft_printf_hexhandler.c \
+				 $(FT_PRINTF)ft_printf_utils.c 
 
+SRCS_GNL = $(GNL)get_next_line.c $(GNL)get_next_line_utils.c
+
+OBJS = $(SRCS:.c=.o)
 OBJS_BONUS = $(SRCS_BONUS:.c=.o)
+OBJS_FT_PRINTF = $(SRCS_FT_PRINTF:.c=.o)
+OBJS_GNL = $(SRCS_GNL:.c=.o)
 
 NAME = libft.a
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
+$(NAME): $(OBJS) $(OBJS_BONUS) $(OBJS_FT_PRINTF) $(OBJS_GNL)
 	ar -crs $@ $^
 
 %.o: %.c
 	${CC} ${CFLAGS} -c $< -o $@
 
-bonus: .bonus
-
-.bonus: $(OBJS) $(OBJS_BONUS)
-	ar -crs $(NAME) $^
-	touch .bonus
-
 clean: 
 	rm -f *.o
-	rm -f .bonus
 
 fclean: clean
 	rm -f $(NAME)
 
 re: fclean $(NAME)
 
-.PHONY: all clean fclean re bonus
+.PHONY: all clean fclean re

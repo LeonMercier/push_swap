@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:39:57 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/25 16:20:00 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/27 16:42:46 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int	do_thing(int argc, char **argv)
 	instructions = 0;
 	if (parse_input(argc, argv, &stack_a))
 	{
-		cleanup(&stack_a, &stack_b, &instructions);
+		cleanup_error(&stack_a, &stack_b, &instructions);
 		return (1);
 	}
 	if (ft_lstsize(stack_a) <= 1)
@@ -68,13 +68,12 @@ static int	do_thing(int argc, char **argv)
 	do_sort(&stack_a, &stack_b, &instructions);
 	if (print_instructions(instructions))
 	{
-		cleanup(&stack_a, &stack_b, &instructions);
+		cleanup_error(&stack_a, &stack_b, &instructions);
 		return (1);
 	}
 	return (cleanup_noexit(&stack_a, &stack_b, &instructions));
 }
 
-// TODO handle values outside int range
 int	main(int argc, char **argv)
 {
 	if (argc <= 1)

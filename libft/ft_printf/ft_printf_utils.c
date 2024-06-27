@@ -6,11 +6,11 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 11:36:48 by lemercie          #+#    #+#             */
-/*   Updated: 2024/05/29 10:34:17 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/27 14:40:33 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "../libft.h"
 
 int	get_hexlen(uintptr_t n)
 {

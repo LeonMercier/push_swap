@@ -6,19 +6,22 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:26:57 by lemercie          #+#    #+#             */
-/*   Updated: 2024/05/07 13:22:43 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/27 14:29:58 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 64
+# endif
 # include <stddef.h>
 # include <limits.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
-// linux
-# include <stdint.h>
+# include <stdint.h> // uintptr
+# include <stdarg.h> // va_*()
 
 typedef struct s_list
 {
@@ -68,4 +71,22 @@ void	ft_lstdelone(t_list *lst, void (*del) (void *));
 void	ft_lstclear(t_list **lst, void (*del) (void *));
 void	ft_lstiter(t_list *lst, void (*f) (void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f) (void *), void (*del) (void *));
+// ft_printf
+int		get_hexlen(uintptr_t n);
+int		ft_write_buf(char *buf, int buflen);
+char	*ft_itoa_long(long int n);
+char	*handle_string(char *s);
+char	*handle_voidptr(void *ptr);
+char	*handle_int(int n);
+char	*handle_uint(unsigned int n);
+char	*handle_hex(uintptr_t n, char hexcase);
+int		ft_printf(const char *format, ...);
+// get_net_line
+//void	*ft_memcpy(void *dst, const void *src, size_t n);
+void	cleanup(char **storage, int *storagesize);
+int		get_linelen(char **storage, int	*storagesize);
+int		put_in_storage(char **storage, int *storagesize, char *buf,
+			int readsize);
+int		has_newline(char **storage, int *storagesize);
+char	*get_next_line(int fd);
 #endif
