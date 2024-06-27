@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:02:57 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/27 16:41:45 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/27 16:55:41 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ void		print_stack(t_list *stack);
 int			ft_atoi_safe(const char *str, int *err_atoi);
 
 //cleanup.c
-void		cleanup_error(t_list **stack_a, t_list **stack_b, t_list **instructions);
+void		cleanup_error(t_list **stack_a, t_list **stack_b,
+				t_list **instructions);
 int			cleanup_noexit(t_list **stack_a, t_list **stack_b,
 				t_list **instructions);
 
