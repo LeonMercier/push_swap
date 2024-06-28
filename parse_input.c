@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:44:45 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/25 16:14:40 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/06/28 10:44:53 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,10 @@ static int	parse_num(t_list **stack, char **strv)
 	err_atoi = 0;
 	while (*strv)
 	{
+		if (!is_valid_number(*strv))
+			return (1);
 		num = (int *) malloc(sizeof(int));
-		if (!is_valid_number(*strv) || !num)
+		if (!num)
 			return (1);
 		*num = ft_atoi_safe(*strv, &err_atoi);
 		node = ft_lstnew(num);
