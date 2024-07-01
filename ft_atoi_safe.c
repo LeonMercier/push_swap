@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:16:46 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/25 15:16:26 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/07/01 11:01:03 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,6 @@ static int	ft_atoi_loop(const char *str, int negative, int *err_atoi)
 		return ((int) result);
 }
 
-// expected behaviour: any amount of whitespace, then optionally a singular +
-//  or - then digits. Garbage after the digits end is tolerated.
-//
-//  system function segfaults on null pointer argument
 int	ft_atoi_safe(const char *str, int *err_atoi)
 {
 	int		negative;
