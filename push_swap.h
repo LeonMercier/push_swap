@@ -6,7 +6,7 @@
 /*   By: lemercie <lemercie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:02:57 by lemercie          #+#    #+#             */
-/*   Updated: 2024/06/27 16:55:41 by lemercie         ###   ########.fr       */
+/*   Updated: 2024/07/01 10:56:23 by lemercie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,6 @@ typedef struct s_moveinfo
 	int			b_rotations;
 	t_movetype	mt;
 }	t_moveinfo;
-
-// DEBUGGING test_utils.c
-void		print_stack(t_list *stack);
 
 //ft_atoi_safe.c
 int			ft_atoi_safe(const char *str, int *err_atoi);
